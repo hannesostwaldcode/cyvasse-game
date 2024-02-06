@@ -1,13 +1,14 @@
 import { twMerge } from "tailwind-merge";
-import { Unit, squareKeys, unitKeys, unitStyles } from "../components/Unit";
+import { Unit, unitKeys, unitStyles } from "../components/Unit";
 import { emptyHomeSquares, move, moves, reserves, unit_positions } from "../data/board";
 import { useEffect, useState } from "react";
 import { Dices } from "lucide-react";
 import { ReservesDisplay } from "../components/ReservesDisplay";
+import { fileCalc, rankCalc } from "../utils/positionCalc";
 
 export function PlayArea() {
-    const [activeTurn, setActiveTurn] = useState(false)
-    const [isActiveField, setIsActiveField] = useState<squareKeys>(undefined)
+    const [activeTurn, setActiveTurn] = useState(true)
+    const [isActiveField, setIsActiveField] = useState<number| undefined>(undefined)
     const [selectedMove, setSelectedMove] = useState<move | undefined>(undefined)
     const [selectedReserve, setSelectedReserve] = useState<unitKeys | undefined>(undefined)
    
@@ -18,7 +19,7 @@ export function PlayArea() {
         setSelectedMove(move)
     }, [isActiveField])
 
-    const handleSelectField = (square: squareKeys) => {
+    const handleSelectField = (square: number) => {
         if (activeTurn){
             setIsActiveField(square)
             setSelectedReserve(undefined)
@@ -31,11 +32,11 @@ export function PlayArea() {
         setSelectedReserve(unit)
     }
     }
-    const playMove = (startSquare: squareKeys, endSquare: squareKeys) => {
+    const playMove = (startSquare: number, endSquare: number) => {
         console.log(startSquare, endSquare)
         setIsActiveField(undefined)
     }
-    const playReserve = (unit: unitKeys, square: squareKeys) => {
+    const playReserve = (unit: unitKeys, square: number) => {
         console.log(unit, square)
         setSelectedReserve(undefined)
     }
@@ -54,21 +55,21 @@ export function PlayArea() {
                         ))}
                     {selectedReserve && (
                         emptyHomeSquares.map(square => (
-                            <div onClick={() => playReserve(selectedReserve, square)} className={twMerge(unitStyles({square: square, unit: "default"}), "opacity-50 bg-yellow-200")}></div>
+                            <div onClick={() => playReserve(selectedReserve, square)}  style={{top: `${rankCalc(square)}%`, left: `${fileCalc(square)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>
                         ))
                     )}
                     
                     {/* Move Fields */}
                     {selectedMove && ( <>
                     {selectedMove.moveSquares.map(square => (
-                        <div key={square} onClick={() => playMove(selectedMove.startSquare, square)} className={twMerge(unitStyles({square: square, unit: "default"}), "w-[10%] h-[10%]")}>
+                        <div key={square} onClick={() => playMove(selectedMove.startSquare, square)}  style={{top: `${rankCalc(square)}%`, left: `${fileCalc(square)}%`}} className={twMerge(unitStyles({unit: "default"}), "w-[10%] h-[10%]")}>
                             <div className="w-[50%] h-[50%] opacity-75 bg-slate-700 translate-x-1/2 translate-y-1/2 rounded-full"></div>
                         </div>
                         ))}
                     {selectedMove.captureSquares.map(square => (
-                        <div key={square} onClick={() => playMove(selectedMove.startSquare, square)} className={twMerge(unitStyles({square: square, unit: "default"}), "border-4 opacity-40 border-slate-400 rounded-full")}></div>
+                        <div key={square} onClick={() => playMove(selectedMove.startSquare, square)}  style={{top: `${rankCalc(square)}%`, left: `${fileCalc(square)}%`}} className={twMerge(unitStyles({unit: "default"}), "border-4 opacity-40 border-slate-400 rounded-full")}></div>
                         ))}
-                    <div className={twMerge(unitStyles({square: selectedMove.startSquare, unit: "default"}), "opacity-50 bg-yellow-200")}></div>
+                    <div  style={{top: `${rankCalc(selectedMove.startSquare)}%`, left: `${fileCalc(selectedMove.startSquare)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>
                     
                     </>)}
                     

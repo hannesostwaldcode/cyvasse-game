@@ -1,6 +1,6 @@
-import {UnitStyles, squareKeys, unitKeys } from "../components/Unit"
+import {PositionType, unitKeys } from "../components/Unit"
 
-export const unit_positions: UnitStyles[] = 
+export const unit_positions: PositionType[] = 
 [{square: 23, unit: "aB"}, 
 {square: 1, unit: "aCa"},
 {square: 28, unit: "aD"}, 
@@ -33,17 +33,17 @@ export const reserves: unitKeys[] = ["aB", "aB", "aD", "aH", "aS", "aS"]
 export const startUnits: unitKeys[] = ["aS", "aS", "aS", "aB", "aB", "aB",
 "aL", "aL", "aL", "aH", "aH", "aE", "aE", "aCa", "aT", "aD", "aK"]
 
-export const emptyHomeSquares: squareKeys[] = [4,5,6,7,14,17,24,27,34,35,37]
+export const emptyHomeSquares:  number[] = [8,5,6,7,15,18,25,35,37,38]
 
 export type move = {
-    startSquare: squareKeys
-    captureSquares: squareKeys[]
-    moveSquares: squareKeys[]
+    startSquare: number
+    captureSquares: number[]
+    moveSquares: number[]
 }
 
 export const moves: move[]= [
     {startSquare: 36, captureSquares: [56], moveSquares:[34,35,37,38,39,40,46]}
 ]
 
-export const alabasterKeys: squareKeys[] = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
+export const alabasterKeys: number[] = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
 ,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50] 
