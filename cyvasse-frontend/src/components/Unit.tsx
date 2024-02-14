@@ -4,9 +4,10 @@ import { fileCalc, rankCalc } from "../utils/positionCalc"
 
 const unitVariants = {
     default: [""],
+    aC:    ["bg-aC"],
     aB:     ["bg-aB"],
-    aCa:    ["bg-aCa"],
-    aCs:    ["bg-aCs","w-[20%]", "h-[20%]"],
+    af:    [""],
+    aF:    ["bg-aF","w-[20%]", "h-[20%]"],
     aD: ["bg-aD"],
     aE: ["bg-aE"],
     aH: ["bg-aH"],
@@ -15,9 +16,13 @@ const unitVariants = {
     am: ["bg-am"],
     aS: ["bg-aS"],
     aT: ["bg-aT"],
+    aR: ["bg-aR"],
+
+    oR:["bg-oR"],
     oB: ["bg-oB"],
-    oCa:    ["bg-oCa"],
-    oCs:    ["bg-oCs","w-[20%]", "h-[20%]"],
+    oC:    ["bg-oC"],
+    of:    [""],
+    oF:    ["bg-oF","w-[20%]", "h-[20%]"],
     oD: ["bg-oD"],
     oE: ["bg-oE"],
     oH: ["bg-oH"],
