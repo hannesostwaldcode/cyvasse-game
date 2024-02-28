@@ -10,23 +10,30 @@ import {
 } from "react-router-dom"
 import './index.css'
 import { CreateGame } from './pages/CreateGame.tsx'
-import { PlayArea } from './layouts/PlayArea.tsx'
+import { PlayArea } from './pages/PlayArea.tsx'
+import { Dashboard } from './pages/Dashboard.tsx'
+import { Loader } from './components/Loader.tsx'
+import { ProtectedRoute } from './components/ProtectedRoute.tsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
-
-  },
-
-  {
-    path: "/creategame",
-    element: <CreateGame/>,
-  },
-  {
-    path: "/playgame/:gameId/:playerId",
-    element: <PlayArea/>,
-  },
+    element: <App />,
+    children: [
+          {
+            path: "creategame",
+            element: <ProtectedRoute><CreateGame /></ProtectedRoute> ,
+          },
+          {
+            path: "dashboard",
+            element: <Dashboard />,
+          },
+          {
+            path: "playgame/:gameId",
+            element: <PlayArea/>,
+          },
+      ]
+},
 ])
 
 const queryClient = new QueryClient()
@@ -34,15 +41,10 @@ const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    
     <QueryClientProvider client={queryClient}>
-    <div className="flex flex-row bg-zinc-100">
-    <div className="w-1/6 p-3">
-      <h1 className="text-3xl font-bold text-slate-700 h-screen">Cyvasse</h1>
-      
-    </div>
-    <RouterProvider router={router}/>
-    </div>
-     
+      <RouterProvider router={router}/>
+
     </QueryClientProvider>
   </React.StrictMode>,
 )

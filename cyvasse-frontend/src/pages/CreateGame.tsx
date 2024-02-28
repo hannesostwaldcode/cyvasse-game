@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
-import { Link, redirect } from "react-router-dom";
-import { PositionType, Unit, unitKeys, unitStyles } from "../components/Unit";
+import { Link, Navigate, redirect } from "react-router-dom";
+import { PositionType, Unit, UnitStyles, unitKeys, unitStyles } from "../components/Unit";
 import {startUnitsA, startUnitsO } from "../data/board";
 import { twMerge } from "tailwind-merge";
-import { fileCalc, rankCalc } from "../utils/positionCalc";
+import { fileCalc, rankCalc } from "../lib/positionCalc";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import useToken from "../hooks/useToken";
+import { useAuth } from "@/components/provider/Auth-Provider";
+
+
 
 export function CreateGame() {
+    const { token } = useAuth();
+
     //Temp Var
     const [playerId, setPlayerId] = useState(3)
 
@@ -44,7 +50,9 @@ export function CreateGame() {
     },[selectedKeepPosition])
     
     const fetchActiveGame = async (): Promise<{gameId: number}> => {
-        const res = await axios.get(`/api/createGame`)
+        const res = await axios.get(`/api/createGame`, {headers: {
+            Authorization: 'Bearer ' + token
+          }})
         return res.data
     }
 
@@ -59,12 +67,14 @@ export function CreateGame() {
 
 
     const onSubmit = () => {
-        mutation.mutate({board: new_unit_positions, boardId: gameId?.gameId, playerId: playerId})
+        mutation.mutate({board: new_unit_positions, boardId: gameId?.gameId, playerId: playerId, reserves: availabelUnits})
     }
 
     const mutation = useMutation({
-        mutationFn: (submitMove: {boardId: undefined | number, playerId: number, board: PositionType[]}) => {
-          return axios.post(`/api/createGame`, submitMove)
+        mutationFn: (submitMove: {boardId: undefined | number, playerId: number, board: PositionType[], reserves: unitKeys[]}) => {
+          return axios.post(`/api/createGame`, submitMove, {headers: {
+            Authorization: 'Bearer ' + token
+          }})
         },
         onSuccess: () => {
             redirect("/")

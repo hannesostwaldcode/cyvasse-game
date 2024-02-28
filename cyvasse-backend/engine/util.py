@@ -32,13 +32,26 @@ def boardstringToArray(gameString: str):
             alabaster_reserves.append(unit)
         if(unit[0] == 'o'):
             onyx_reserves.append(unit)
-    return res, alabasterToMove, alabaster_reserves, onyx_reserves
+    doubleMoveString = splitted[3]
+    doubleMove = None
+    if len(doubleMoveString) == 2:
+        doubleMove = (doubleMoveString[0], doubleMoveString[1])
+    return res, alabasterToMove, alabaster_reserves, onyx_reserves, doubleMove
 
 
-def JsonToBoardString(json, aToMove: bool):
+def JsonToBoardString(json, aToMove: bool,reserves, board = None):
     string_val = "/" * 200
+    board_reserve = ""
+    if board:
+        print(board)
+        splitted = board.split(" ") 
+        string_val = splitted[0]
+        board_reserve += splitted[2]
     for e in json:
         index = (e['square']-1)*2
         string_val = string_val[:index] + e['unit'] + string_val[index + 2:]
-    boardString = string_val + (' a' if aToMove else ' o')
+    for u in reserves:
+        board_reserve += u
+    boardString = string_val + (' a ' if aToMove else ' o ') + board_reserve + " "
+
     return boardString
