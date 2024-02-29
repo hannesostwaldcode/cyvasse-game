@@ -3,6 +3,7 @@ import { useModal } from "../../hooks/useModal"
 import { useAuth } from "../provider/Auth-Provider";
 import { Button } from "../ui/button";
 
+
 export function UserAuth() {
     const {onLogout, token } = useAuth();
     const {onOpen} = useModal()

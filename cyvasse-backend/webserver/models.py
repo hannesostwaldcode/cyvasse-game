@@ -1,8 +1,9 @@
 from typing import List
 from sqlalchemy.orm import relationship
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import  Mapped, mapped_column
 from sqlalchemy import ForeignKey, func
 from datetime import datetime
+from engine import util
 from . import db
 
 
@@ -22,8 +23,9 @@ class Board(db.Model):
     @property
     def serialized(self):
         return {
-            "player_alabaster": self.player_alabaster_id,
-            "player_onyx":      self.player_onyx_id,
+            "player_alabaster": self.player_alabaster.name,
+            "player_onyx":      self.player_onyx.name,
+            "board":            util.boardstringToJson(self.positionString),
             "id":               self.id
         }
 class User(db.Model):

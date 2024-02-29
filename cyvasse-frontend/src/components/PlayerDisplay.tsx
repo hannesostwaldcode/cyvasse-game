@@ -1,14 +1,15 @@
 import { unitKeys } from "./Unit"
 import { CountryCode } from "../data/board"
 import { getCountryFlagEmoji } from "@/lib/utils"
+import { useEffect, useState } from "react"
 
 type PlayerDisplayProps = {
     playerName: string
     rating:     number
     imgUrl:     string
-    advantage?: number
     country:    CountryCode
     units:      unitKeys[]
+    opponentUnits: unitKeys[]
 }
 
 
@@ -19,10 +20,34 @@ export function PlayerDisplay({
     units,
     country,
     imgUrl,
-    advantage
+    opponentUnits
 }: PlayerDisplayProps){
+    const [playerAdvantage, setplayerAdvantage] = useState(0)
+
+    useEffect(() => {
+        setplayerAdvantage(unitValueHelper(units) - unitValueHelper(opponentUnits))
+    }, [units, opponentUnits])
     
-   
+    const unitValueHelper = (units: unitKeys[]) => {
+        let tempplayerAdvantage = 0
+        units.forEach((e) => {
+            if (!e) {return}
+            const unit = e[1]
+            if(unit == 'R' || unit == 'S') {
+                tempplayerAdvantage += 1
+            }
+            else if(unit == 'B' || unit == 'L' || unit == 'H') {
+                tempplayerAdvantage += 3
+            }
+            else if(unit == 'E' || unit == 'C' || unit == 'T') {
+                tempplayerAdvantage += 5
+            }
+            else if(unit == 'D'){
+                tempplayerAdvantage += 9
+            }
+        })
+        return tempplayerAdvantage
+    }
 
     return (
         <div className="w-[300px] flex ">
@@ -35,7 +60,7 @@ export function PlayerDisplay({
               
                 ))}
                 
-                {advantage && <div className="ml-3">+ {Math.abs(advantage)}</div> }
+                {playerAdvantage > 0 && <div className="ml-3">+ {playerAdvantage}</div> }
                 </div>
             </div>
         </div>

@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { PositionType } from "@/components/Unit";
+import { SmallBoardDisplay } from "@/components/SmallBoardDisplay";
+import { useAuth } from "@/components/provider/Auth-Provider";
   
 
 type gameInfo = {
     id: number,
-    player_alabaster: number,
-    player_onyx: number 
+    player_alabaster: string,
+    player_onyx: string
+    board:      PositionType[] 
   }
   type gameInfoArray = {
     data: gameInfo[]
@@ -15,7 +19,11 @@ type gameInfo = {
   }
 
 export function Dashboard() {
-    const [gameId, setGameId] = useState(4)
+    const {token} = useAuth()
+    if (!token) {
+      return <Navigate to="/" replace />;
+    }
+    const [gameId, setGameId] = useState(1)
     const navigate = useNavigate();
   
   
@@ -29,8 +37,8 @@ export function Dashboard() {
     useQuery({queryKey: ['board'],queryFn: fetchBoard})
   
   
-    const onClick = () => {
-      navigate(`/playgame/${gameId}`)
+    const onClick = (id: number) => {
+      navigate(`/playgame/${id}`)
     }
   
     if (isPending || !games?.data) return "Loading"
@@ -43,13 +51,12 @@ export function Dashboard() {
     </div>
        
     <div className="flex m-3 gap-5 flex-row">
-    <button onClick={onClick}>Find Game</button>
-    <label>
-          Game Id:  <input type="number" value={gameId} onChange={(e) => setGameId(e.target.valueAsNumber)}/>
-    </label>
     </div>
     {games.data.map(e => (
-      <div key={e.id}>Game: {e.id} Alabaster: {e.player_alabaster} Onyx: {e.player_onyx}</div>
+      <div onClick={() => onClick(e.id)} key={e.id} className="flex items-center bg-slate-500">
+      <div className="mr-5">Alabaster: {e.player_alabaster} vs. Onyx: {e.player_onyx}</div>
+      <SmallBoardDisplay board={e.board} alabasterPlayer/>
+      </div>
     ))}
     
    </div>
