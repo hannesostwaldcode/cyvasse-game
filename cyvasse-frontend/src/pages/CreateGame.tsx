@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Navigate, redirect } from "react-router-dom";
 import { PositionType, Unit, unitKeys, unitStyles } from "../components/Unit";
 import {startUnitsA, startUnitsO } from "../data/board";
@@ -8,6 +8,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/components/provider/Auth-Provider";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
+import { ReservesDisplay } from "@/components/ReservesDisplay";
 
 
 
@@ -22,7 +23,6 @@ export function CreateGame() {
     const [new_unit_positions, setNew_unit_positions] = useState<PositionType[]>([])
     const [toPlace, setToPlace] = useState<unitKeys>(undefined) 
     const [placedObj, setPlacedObj] = useState(false)
-    const [selectedKeepPosition, setSelectedKeepPosition] = useState<number| undefined>(undefined)
     const [keepPosition, setKeepPosition] = useState<number[]>([])
     const [homeSquare, setHomeSquare] = useState<number[]>([])
     const keepPositionOperator = [1,10,11, 0]
@@ -33,6 +33,9 @@ export function CreateGame() {
         const res = await api.get(`/createGame`, {headers: {
             Authorization: 'Bearer ' + token
           }})
+          if(typeof res.data?.gameId == "number") { 
+           gameExists()
+            }
         return res.data
     }
 
@@ -55,15 +58,14 @@ export function CreateGame() {
       })
 
     //Change which Set to use
-    useEffect(() => {
-        if (typeof gameId?.gameId == "number") {
-            setavailableObjects(["oF", "om", "om", "om"])
-            setAvailableUnits(startUnitsO)
-        }
-    },[gameId])
+   
+    const gameExists = () => {
+        setavailableObjects(["oF", "om", "om", "om"])
+        setAvailableUnits(startUnitsO)
+    } 
     //Calculate Home and Keep squares
-    useEffect(() => {
-        if(selectedKeepPosition){
+    const placeKeep = (selectedKeepPosition: number) => {
+    
             setKeepPosition([])
             let tempKeepSquare: number[] = []
             keepPositionOperator.forEach(e => {
@@ -81,8 +83,8 @@ export function CreateGame() {
             homeSquareOperator.forEach(e => tempHomeSquare.push(selectedKeepPosition+e))
             setHomeSquare(tempHomeSquare)
             console.log(keepPosition)
-        }
-    },[selectedKeepPosition])
+        
+    }
 
     const objectSelected = (selected: unitKeys) => {
         let tempAvailable = availableObjects
@@ -120,7 +122,7 @@ export function CreateGame() {
             temp.push({square: square, unit: toPlace})
             setNew_unit_positions(temp)
             if(toPlace == "aF" || toPlace == "oF") {
-                setSelectedKeepPosition(square)
+                placeKeep(square)
             }
             setToPlace(undefined)
         }
@@ -141,7 +143,7 @@ export function CreateGame() {
             temp.push({square: square, unit: toPlace})
             setNew_unit_positions(temp)
             if(toPlace == "aF") {
-                setSelectedKeepPosition(square)
+               // setSelectedKeepPosition(square)
             }
             setToPlace(undefined)
         }
@@ -179,16 +181,12 @@ export function CreateGame() {
            
 
             </div>
-            <div className="bg-slate-800 overflow-scroll w-40 h-[600px] grid grid-cols-2">
-                {availableObjects.length != 0 ? (
-                 availableObjects.map(unit => (
-                    <div onClick={() => objectSelected(unit)} className={`bg-cover w-20 h-20 bg-${unit}`}></div>
-               ))
+            <div className="bg-slate-800 overflow-scroll w-40 h-[600px]">
+                {new_unit_positions.length < 7 ? (
+                    <ReservesDisplay reserves={availableObjects} selectedReserve={objectSelected}/>
                 ):(
-                    availabelUnits.map(unit => (
-                        <div onClick={() => unitSelected(unit)} className={`bg-cover w-20 h-20 bg-${unit}`}></div>
-                    ))
-                
+                    <ReservesDisplay reserves={availabelUnits} selectedReserve={unitSelected}/>
+                                
                 )}
                
 

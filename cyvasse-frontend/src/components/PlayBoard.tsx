@@ -5,6 +5,7 @@ import { gameData } from "@/pages/PlayArea";
 import { useEffect, useState } from "react";
 import { move } from "@/data/board";
 import { ReservesDisplay } from "./ReservesDisplay";
+import { UnitInfo } from "./UnitInfo";
 
 type playBoardProps = {
     gameData: gameData
@@ -16,8 +17,8 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
     const [selectedMoves, setSelectedMoves] = useState<move[]>([])
     const [selectedReserve, setSelectedReserve] = useState<unitKeys | undefined>(undefined)
     const [reserves, setReserves] = useState<number[]>([])
- 
-    useEffect(() => {
+    const [infoObject, setInfoObject] = useState<unitKeys>(null)
+     useEffect(() => {
         handleReserveFilter()
         gameData.moves.forEach(move => {
             if(isActiveField == undefined) {
@@ -46,9 +47,11 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
             setIsActiveField(undefined) 
             return
         }
+        setInfoObject(gameData.board.find(e => e.square == square)?.unit ?? null)
         const index = gameData?.moves.findIndex(e => e.startSquare == square)
         if (index != -1){
             setIsActiveField(square)
+            // ToDo write less dodgy
             setSelectedReserve(undefined)
         }
     }
@@ -104,6 +107,7 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
                           <ReservesDisplay title="Reserves" reserves={gameData.reserves} selectedReserve={handleSelectReserve}/>
                           <button className={`rounded-md h-12 bg-gray-700 text-slate-200m ${gameData.doubleMove ? '' : 'hidden'}`} onClick={() => handlePlayMove(null, 0, null)}>Skip Double Rabble Move</button>
                       </div>
+                      {infoObject && <UnitInfo unit={infoObject}/>}
                       </div>
     )
 }
