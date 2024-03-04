@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge"
 
 const unitVariants = {
     default: [""],
+    C:      ["bg-aC"],
     aC:    ["bg-aC"],
     aB:     ["bg-aB"],
     af:    [""],

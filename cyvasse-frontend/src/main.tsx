@@ -12,14 +12,19 @@ import './index.css'
 import { CreateGame } from './pages/CreateGame.tsx'
 import { PlayArea } from './pages/PlayArea.tsx'
 import { Dashboard } from './pages/Dashboard.tsx'
-import { Loader } from './components/Loader.tsx'
 import { ProtectedRoute } from './components/ProtectedRoute.tsx'
+import { Home } from './pages/Home.tsx'
+import { Learn } from './pages/Learn.tsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
+          {
+            path: "",
+            element: <Home/>
+          },
           {
             path: "creategame",
             element: <ProtectedRoute><CreateGame /></ProtectedRoute> ,
@@ -32,6 +37,10 @@ const router = createBrowserRouter([
             path: "playgame/:gameId",
             element: <PlayArea/>,
           },
+          {
+            path: "learn",
+            element: <Learn/>,
+          }
       ]
 },
 ])
