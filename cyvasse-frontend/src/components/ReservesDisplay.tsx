@@ -4,12 +4,14 @@ type ReservesDisplayProps = {
     reserves: unitKeys[]
     selectedReserve: (reserve: unitKeys) => void;
     title?: string
+    neutral?: boolean
 }
 
 export function ReservesDisplay({
     reserves,
     selectedReserve,
-    title
+    title,
+    neutral = false
 }:ReservesDisplayProps) {
     return <div className="bg-slate-700">
             {title && <div className="text-center mt-2">{title}</div>}
@@ -17,7 +19,7 @@ export function ReservesDisplay({
                 
                 {reserves.map((reserve, index) => (
                 
-                    <div key={index} onClick={() => selectedReserve(reserve)} className={`bg-cover w-12 h-12 bg-${reserve}`}></div>   
+                    <div key={index} onClick={() => selectedReserve(reserve)} className={`bg-cover w-12 h-12 bg-${reserve} ${neutral ? "contrast-50" : ""}`}></div>   
                 
                     ))}
             </div>

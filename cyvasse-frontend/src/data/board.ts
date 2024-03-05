@@ -253,10 +253,8 @@ export const countryNameRecord = {
   
 export type CountryCode = keyof typeof countryNameRecord
 
-export const startUnitsA: unitKeys[] = ["aR","aR","aR", "aS", "aS", "aS", "aB", "aB", "aB",
-"aL", "aL", "aL", "aH", "aH", "aE", "aE", "aC", "aT", "aD", "aK"]
-export const startUnitsO: unitKeys[] = ["oR","oR","oR", "oS", "oS", "oS", "oB", "oB", "oB",
-"oL", "oL", "oL", "oH", "oH", "oE", "oE", "oC", "oT", "oD", "oK"]
+export const startUnits: unitKeys[] = ["R","R","R", "S", "S", "S", "B", "B", "B",
+"L", "L", "L", "H", "H", "E", "E", "C", "T", "D", "K"]
 
 export const emptyHomeSquares:  number[] = [8,5,6,7,15,18,25,35,37,38]
 

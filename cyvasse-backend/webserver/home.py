@@ -52,13 +52,12 @@ def createGame():
         else:
             return "OK"
     if request.method == 'POST':
+        game = Board.query.filter(Board.player_onyx == None).first()
         data = request.json
         board = data.get('board')
         reserves = data.get('reserves')
         player = current_user.id
-        boardId = data.get('boardId')
-        if boardId:
-            game = Board.query.filter(Board.id==boardId).first()
+        if game:
             boardString = JsonToBoardString(board, True, reserves, game.positionString)
             game.positionString = boardString
             game.player_onyx_id = player
@@ -75,17 +74,12 @@ def createGame():
 @home.route("/games")
 @jwt_required() #new line
 def get_games():
-    games = Board.query.all()
+    games = Board.query.filter(and_(Board.player_alabaster_id.is_not(None), Board.player_onyx_id.is_not(None))).all()
     return jsonify({"data": [game.serialized for game in games]})
 
 @home.route("/boardData/<int:gameId>")
 @jwt_required() #new line
 def get_board(gameId):
-    if request.method == 'POST':
-        db.Query()
-        newBoard = Board(
-
-        )
     playerId = current_user.id
     game = Board.query.filter(and_(or_(Board.player_onyx_id==playerId, Board.player_alabaster_id==playerId),Board.id==gameId)).first()
     

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Navigate, redirect } from "react-router-dom";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 import { PositionType, Unit, unitKeys, unitStyles } from "../components/Unit";
-import {startUnitsA, startUnitsO } from "../data/board";
+import {startUnits} from "../data/board";
 import { twMerge } from "tailwind-merge";
 import { fileCalc, rankCalc } from "../lib/positionCalc";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -14,55 +14,38 @@ import { ReservesDisplay } from "@/components/ReservesDisplay";
 
 export function CreateGame() {
     const {token} = useAuth()
+    const navigate = useNavigate()
     if (!token) {
       return <Navigate to="/" replace />;
     }
 
-    const [availableObjects, setavailableObjects] = useState<unitKeys[]>(["aF", "am", "am", "am"])
-    const [availabelUnits, setAvailableUnits] = useState(startUnitsA)
+    const [availableObjects, setavailableObjects] = useState<unitKeys[]>(["F", "m", "m", "m"])
+    const [availabelUnits, setAvailableUnits] = useState(startUnits)
     const [new_unit_positions, setNew_unit_positions] = useState<PositionType[]>([])
     const [toPlace, setToPlace] = useState<unitKeys>(undefined) 
-    const [placedObj, setPlacedObj] = useState(false)
+    const [ShowAllSquares, setShowAllSquares] = useState(true)
     const [keepPosition, setKeepPosition] = useState<number[]>([])
     const [homeSquare, setHomeSquare] = useState<number[]>([])
     const keepPositionOperator = [1,10,11, 0]
     const homeSquareOperator = [-11, -10, -9, -8, -1, 2, 9, 12, 19,20,21,22]
    
     
-    const fetchActiveGame = async (): Promise<{gameId: number}> => {
-        const res = await api.get(`/createGame`, {headers: {
-            Authorization: 'Bearer ' + token
-          }})
-          if(typeof res.data?.gameId == "number") { 
-           gameExists()
-            }
-        return res.data
-    }
-
-    const {isPending, error, data: gameId} = 
-    useQuery({queryKey: ['activeGames'], queryFn: fetchActiveGame})
-
+    
     const onSubmit = () => {
-        mutation.mutate({board: new_unit_positions, boardId: gameId?.gameId, reserves: availabelUnits})
+        mutation.mutate({board: new_unit_positions, reserves: availabelUnits})
     }
 
     const mutation = useMutation({
-        mutationFn: (submitMove: {boardId: undefined | number, board: PositionType[], reserves: unitKeys[]}) => {
+        mutationFn: (submitMove: { board: PositionType[], reserves: unitKeys[]}) => {
           return api.post(`/createGame`, submitMove, {headers: {
             Authorization: 'Bearer ' + token
           }})
         },
         onSuccess: () => {
-            redirect("/")
+            navigate("/dashboard")
           },
       })
-
-    //Change which Set to use
-   
-    const gameExists = () => {
-        setavailableObjects(["oF", "om", "om", "om"])
-        setAvailableUnits(startUnitsO)
-    } 
+  
     //Calculate Home and Keep squares
     const placeKeep = (selectedKeepPosition: number) => {
     
@@ -71,8 +54,8 @@ export function CreateGame() {
             keepPositionOperator.forEach(e => {
                 tempKeepSquare.push(selectedKeepPosition+e)
                 let temp = new_unit_positions
-                if(e != 0){
-                    temp.push({square: selectedKeepPosition+e, unit: gameId?.gameId ? 'of' : 'af'})
+                if(e != 0 ){
+                    temp.push({square: selectedKeepPosition+e, unit: 'f'})
                 }
                 setNew_unit_positions(temp)
             })
@@ -80,7 +63,10 @@ export function CreateGame() {
             
             setHomeSquare([])
             let tempHomeSquare: number[] = []
-            homeSquareOperator.forEach(e => tempHomeSquare.push(selectedKeepPosition+e))
+            homeSquareOperator.forEach(e => {
+                if (selectedKeepPosition+e < 51){
+                tempHomeSquare.push(selectedKeepPosition+e)}
+            })
             setHomeSquare(tempHomeSquare)
             console.log(keepPosition)
         
@@ -99,7 +85,7 @@ export function CreateGame() {
 
     const unitSelected = (selected: unitKeys) => {
         let tempAvailable = availabelUnits
-        setPlacedObj(true)
+        setShowAllSquares(false)
         const index = tempAvailable.indexOf(selected);
             if (index > -1) {
                 tempAvailable.splice(index, 1)
@@ -108,20 +94,26 @@ export function CreateGame() {
             }
     }
 
-    const setObject = (square: number) => {
+    const setObject = (square: number) => { 
+        console.log(square)
         const index = new_unit_positions.findIndex((e) => e.square === square)
         if(index > -1) {return}
-        
+
         if(keepPosition.length > 0){
             const index = keepPosition.findIndex(e => e == square)
             if(index > -1) {return}
         }
        
         if(toPlace) {
+            if(toPlace == "F") {
+                if (square <= 11 || square >= 29 || (square >= 19 && square <= 21)) {
+                    return
+                }
+            }
             let temp = new_unit_positions
             temp.push({square: square, unit: toPlace})
             setNew_unit_positions(temp)
-            if(toPlace == "aF" || toPlace == "oF") {
+            if(toPlace == "F") {
                 placeKeep(square)
             }
             setToPlace(undefined)
@@ -142,7 +134,7 @@ export function CreateGame() {
             let temp = new_unit_positions
             temp.push({square: square, unit: toPlace})
             setNew_unit_positions(temp)
-            if(toPlace == "aF") {
+            if(toPlace == "F") {
                // setSelectedKeepPosition(square)
             }
             setToPlace(undefined)
@@ -150,42 +142,39 @@ export function CreateGame() {
     }
     // Clickable Fields 
     const renderList = () => {
-        const start = gameId?.gameId ? 51 : 1
-        const end = gameId?.gameId ? 101: 51
         const listItems = [];
-        for (let i = start; i < end; i++) {
-          listItems.push(<div onClick={() => setObject(i)} style={{top: `${rankCalc(i)}%`, left: `${fileCalc(i)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>);
+        for (let i = 1; i < 51; i++) {
+          listItems.push(<div key={i} onClick={() => setObject(i)} style={{top: `${rankCalc(i)}%`, left: `${fileCalc(i)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>);
         }
         return listItems;
       };
 
     //ToDo Should players have to place a unit on every free home square?
 
-    if (isPending) return 'Loading...'
-
-    if (error) return 'An error has occurred: ' + error.message
-
     return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mx-auto">
+        <div className="text-2xl text-center space-y-5">Place your Units!</div>
     <div className="flex flex-row">
         <div className="p-3 flex justify-center">
-            <div className="h-[600px] w-[600px] ml-10 relative bg-contain bg-no-repeat  bg-game-board">
+            
+            <div className="h-[600px] w-[600px] ml-10 relative bg-contain rotate-180 bg-no-repeat  bg-game-board-fow">
+                
             {new_unit_positions.map(unit => (
-                        <Unit  onClick={() => {return}}  key={unit.square} square={unit.square} unit={unit.unit}/>
+                        <Unit  onClick={() => {return}} flipped  key={unit.square} square={unit.square} unit={unit.unit}/>
                         ))}
                 {homeSquare && availableObjects.length == 0 && homeSquare.map(index => (
                     <div onClick={() => setUnit(index)} style={{top: `${rankCalc(index)}%`, left: `${fileCalc(index)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-green-200")}></div>
                 ))}
-            {toPlace && !placedObj && renderList()}
+            {toPlace && ShowAllSquares && renderList()}
 
            
 
             </div>
             <div className="bg-slate-800 overflow-scroll w-40 h-[600px]">
                 {new_unit_positions.length < 7 ? (
-                    <ReservesDisplay reserves={availableObjects} selectedReserve={objectSelected}/>
+                    <ReservesDisplay reserves={availableObjects} neutral selectedReserve={objectSelected}/>
                 ):(
-                    <ReservesDisplay reserves={availabelUnits} selectedReserve={unitSelected}/>
+                    <ReservesDisplay reserves={availabelUnits} neutral selectedReserve={unitSelected}/>
                                 
                 )}
                

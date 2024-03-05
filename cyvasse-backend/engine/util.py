@@ -42,16 +42,21 @@ def boardstringToArray(gameString: str):
 def JsonToBoardString(json, aToMove: bool,reserves, board = None):
     string_val = "/" * 200
     board_reserve = ""
+    site = 'a'
     if board:
+        site = 'o'
         print(board)
         splitted = board.split(" ") 
         string_val = splitted[0]
         board_reserve += splitted[2]
     for e in json:
-        index = (e['square']-1)*2
-        string_val = string_val[:index] + e['unit'] + string_val[index + 2:]
+        if board:
+            index = (101-e['square']-1)*2
+        else:
+            index = (e['square']-1)*2
+        string_val = string_val[:index] + site + e['unit'] + string_val[index + 2:]
     for u in reserves:
-        board_reserve += u
+        board_reserve += site + u
     boardString = string_val + (' a ' if aToMove else ' o ') + board_reserve + " "
 
     return boardString
