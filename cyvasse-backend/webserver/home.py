@@ -70,12 +70,18 @@ def createGame():
             db.session.add(board)
             db.session.commit()
             return "OK"
+        
+@home.route("/testgame")
+def get_games_t():
+    games = Board.query.first()
+    return jsonify({"data": games.serialized}), 200
+
 
 @home.route("/games")
 @jwt_required() #new line
 def get_games():
     games = Board.query.filter(and_(Board.player_alabaster_id.is_not(None), Board.player_onyx_id.is_not(None))).all()
-    return jsonify({"data": [game.serialized for game in games]})
+    return jsonify({"data": [game.serialized for game in games]}), 200
 
 @home.route("/boardData/<int:gameId>")
 @jwt_required() #new line
