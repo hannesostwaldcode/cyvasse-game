@@ -25,7 +25,7 @@ export const AuthProvider = ({children} : {children: React.ReactNode}) => {
 
     const handleLogOut = () =>  {
         api.post("/logout")
-        .then((res) => {
+        .then(() => {
             removeToken()
         })
         .catch((error) => {console.log(error)})

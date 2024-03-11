@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { MainNavbar } from "./components/nav/main-navbar";
-import { AuthProvider } from "./components/provider/Auth-Provider";
+import { AuthProvider } from "./components/provider/AuthProvider";
 import { LoginModal } from "./modals/login-modal";
 import { SignupModal } from "./modals/signup-modal";
 

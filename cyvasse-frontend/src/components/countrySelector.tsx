@@ -35,7 +35,7 @@ export function CountrySelector({
                     <CommandInput placeholder="Search Country..."/>
                     <CommandEmpty>Country not found! Try your countries name in english</CommandEmpty>
                     <CommandGroup>
-                        {countryKeys.map((keyName, index) => (
+                        {countryKeys.map((keyName) => (
                             <CommandItem
                                 key={keyName}
                                 value={countryNameRecord[keyName]}

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { PositionType, Unit, unitKeys, unitStyles } from "../components/Unit";
 import {startUnits} from "../data/board";
 import { twMerge } from "tailwind-merge";
 import { fileCalc, rankCalc } from "../lib/positionCalc";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/components/provider/Auth-Provider";
+import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "@/components/provider/AuthProvider";
 import api from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { ReservesDisplay } from "@/components/ReservesDisplay";

@@ -1,14 +1,12 @@
 import { useModal } from "../hooks/useModal"
 import { useForm } from "react-hook-form"
-import useToken from "../hooks/useToken"
 import * as z from "zod"
-import api from "../lib/api"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useAuth } from "@/components/provider/Auth-Provider"
+import { useAuth } from "@/components/provider/AuthProvider"
 
 const formSchema = z.object({
     email: z.string().min(1),
@@ -17,7 +15,6 @@ const formSchema = z.object({
 
 export const LoginModal = () => {
     const {isOpen, onClose, type} = useModal()
-    const {setToken} = useToken()
     const isModalOpen = isOpen && type === "logIn";
     const {onLogin} = useAuth()
     

@@ -3,7 +3,7 @@ import { CountryCode, move} from "../data/board";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Navigate, useParams } from "react-router-dom";
 import { PlayerDisplay } from "../components/PlayerDisplay";
-import { useAuth } from "@/components/provider/Auth-Provider";
+import { useAuth } from "@/components/provider/AuthProvider";
 import { PlayBoard } from "@/components/PlayBoard";
 import api from "@/lib/api";
 export type player = {

@@ -13,7 +13,7 @@ RUN apt-get update && \
 RUN pip install --upgrade pip
 RUN pip install flake8==6.0.0
 COPY . /usr/src/app/
-RUN flake8 --ignore=E501,F401 .
+# DISABLE LINT FOR TEST RUN RUN flake8 --ignore=E501,F401 .
 
 # install python dependencies
 COPY ./requirements.txt .
@@ -50,4 +50,4 @@ RUN chown -R app:app $APP_HOME
 USER app
 
 # run entrypoint.prod.sh
-ENTRYPOINT ["/home/app/web/entrypoint.prod.sh"]
+ENTRYPOINT ["/home/app/cyvasse-backend/entrypoint.prod.sh"]

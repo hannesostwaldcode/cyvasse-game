@@ -1,6 +1,6 @@
 
 import { useModal } from "../../hooks/useModal"
-import { useAuth } from "@/components/provider/Auth-Provider";
+import { useAuth } from "../provider/AuthProvider";
 import { Button } from "../ui/button";
 
 

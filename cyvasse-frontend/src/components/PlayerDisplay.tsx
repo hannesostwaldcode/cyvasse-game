@@ -55,6 +55,7 @@ export function PlayerDisplay({
             <div className="flex ml-4 flex-col">
                 <div className="flex flex-row">{playerName} ({rating}) {country ? getCountryFlagEmoji(country) : "🏳"}</div>
                 <div className="flex my-auto flex-row">
+                    {imgUrl}
                 {units.map(e => (
                      <div key={e} className={`bg-cover -mr-2.5 w-6 h-6 bg-${e}`}/> 
               

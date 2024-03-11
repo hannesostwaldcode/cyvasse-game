@@ -1,4 +1,0 @@
-FROM nginx:1.25
-
-RUN rm /etc/nignx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d

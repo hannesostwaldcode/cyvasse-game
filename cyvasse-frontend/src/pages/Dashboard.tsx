@@ -3,7 +3,7 @@ import api from "@/lib/api";
 import { Navigate, useNavigate } from "react-router-dom";
 import { PositionType } from "@/components/Unit";
 import { SmallBoardDisplay } from "@/components/SmallBoardDisplay";
-import { useAuth } from "@/components/provider/Auth-Provider";
+import { useAuth } from "@/components/provider/AuthProvider";
   
 
 type gameInfo = {

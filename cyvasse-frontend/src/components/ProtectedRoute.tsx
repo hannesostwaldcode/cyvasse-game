@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import {
     Navigate
   } from 'react-router-dom';
-import { useAuth } from './provider/Auth-Provider';
+import { useAuth } from './provider/AuthProvider';
 import { useModal } from '@/hooks/useModal';
   
 export const ProtectedRoute = ({ children }: {children: ReactNode}) => {

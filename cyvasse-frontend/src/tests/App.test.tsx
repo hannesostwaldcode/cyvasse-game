@@ -1,7 +1,7 @@
 import { describe, expect, it, test } from "vitest";
 import { fileCalc, rankCalc } from "@/lib/positionCalc";
 
-import {render, screen} from "@testing-library/react"
+import {render} from "@testing-library/react"
 
 import { ReservesDisplay } from "@/components/ReservesDisplay";
 
@@ -15,4 +15,7 @@ describe('App', () => {
 })
 test("A test", () => {
     expect(fileCalc(4)).toBe(30)
+})
+test("A test", () => {
+    expect(rankCalc(4)).toBe(0)
 })

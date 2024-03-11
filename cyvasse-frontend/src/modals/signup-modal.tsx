@@ -18,7 +18,7 @@ const formSchema = z.object({
 })
 
 export const SignupModal = () => {
-    const {isOpen, onClose, onOpen, type} = useModal()
+    const {isOpen, onClose, type} = useModal()
     const {setToken} = useToken()
     const isModalOpen = isOpen && type === "signUp";
 
@@ -129,7 +129,7 @@ export const SignupModal = () => {
                                 <FormField
                                     control={form.control}
                                     name="country"
-                                    render={({field}) => (
+                                    render={({}) => (
                                         <FormItem className="flex flex-col">
                                                 <FormLabel>
                                                     Country
