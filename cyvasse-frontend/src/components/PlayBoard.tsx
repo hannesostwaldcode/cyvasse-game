@@ -44,7 +44,8 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
 
     const handleSelectField = (square: number) => {
         if(isActiveField){
-            setIsActiveField(undefined) 
+            setIsActiveField(undefined)
+            setInfoObject(undefined) 
             return
         }
         setInfoObject(gameData.board.find(e => e.square == square)?.unit ?? null)
@@ -66,11 +67,12 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
     const handlePlayMove = (startSquare: number | null, endSquare: number, unit: unitKeys | null) => {
         playMove(startSquare, endSquare, unit)
         setIsActiveField(undefined)
+        setInfoObject(undefined) 
     }
     return (
         <div className="flex flex-row py-5">
         <div  className={`h-[600px] w-[600px]  flex-none relative bg-contain bg-no-repeat  bg-game-board ${gameData.self_alabaster ? "rotate-180" : ""}`}>
-                        <div onClick={() => setIsActiveField(undefined)} 
+                        <div onClick={() => {setIsActiveField(undefined),  setInfoObject(undefined)} } 
                             className="h-[600px] w-[600px] absolute top-0 left-0"></div>
                     
                         {gameData.last_move && (
@@ -106,8 +108,9 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
                           <div className="flex justify-between flex-col">
                           <ReservesDisplay title="Reserves" reserves={gameData.reserves} selectedReserve={handleSelectReserve}/>
                           <button className={`rounded-md h-12 bg-gray-700 text-slate-200m ${gameData.doubleMove ? '' : 'hidden'}`} onClick={() => handlePlayMove(null, 0, null)}>Skip Double Rabble Move</button>
+                          {infoObject && <UnitInfo unit={infoObject}/>}
                       </div>
-                      {infoObject && <UnitInfo unit={infoObject}/>}
+
                       </div>
     )
 }

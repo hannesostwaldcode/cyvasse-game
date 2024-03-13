@@ -31,8 +31,8 @@ export const LoginModal = () => {
     const onSubmit = (data: z.infer<typeof formSchema>) => {
         onLogin(data)
         form.reset()
-        onClose()
-    
+        
+        
     
         
     }

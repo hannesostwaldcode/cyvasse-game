@@ -1,0 +1,16 @@
+{
+    "public": {
+        "pages": {
+            "home": {
+                "title": "A title f",
+                "subtitle": "A subtitle",
+                "action": "Learn More"
+            }
+        },
+        "assets": {
+            "home": {
+                "hero_src": "https://Image.com"
+            }
+        }
+    }
+}

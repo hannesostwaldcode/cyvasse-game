@@ -16,6 +16,7 @@ import { ProtectedRoute } from './components/ProtectedRoute.tsx'
 import { Home } from './pages/Home.tsx'
 import { Learn } from './pages/Learn.tsx'
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -46,7 +47,6 @@ const router = createBrowserRouter([
 ])
 
 const queryClient = new QueryClient()
-
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

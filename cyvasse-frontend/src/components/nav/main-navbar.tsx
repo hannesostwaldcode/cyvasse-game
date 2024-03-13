@@ -11,7 +11,7 @@ export function MainNavbar() {
         <div className="justify-between flex flex-col">
         <button onClick={() => navigate('/dashboard')} className='hover:bg-slate-400'><Gamepad className='w-6 h-6 m-auto'/>Play</button>
         <button onClick={() => navigate('/creategame')} className='hover:bg-slate-400'><Hammer className='w-6 h-6 m-auto'/>New Game</button>
-        <button className='hover:bg-slate-400'><Book className='w-6 h-6 m-auto'/>Learn</button>
+        <button onClick={() => navigate('/learn')} className='hover:bg-slate-400'><Book className='w-6 h-6 m-auto'/>Learn</button>
         <button className='hover:bg-slate-400'><User className='w-6 h-6 m-auto'/>Social</button>
         </div>
         <div className="mt-auto mx-auto mb-5">
