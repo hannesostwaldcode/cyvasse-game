@@ -1,3 +1,5 @@
+import default_image from "@/assets/testImage.jpeg"
+
 type GuideInfoCardProps = {
     title:          string
     extract:        string
@@ -14,9 +16,11 @@ export const GuideInfoCard = ({
     lesson_text = "Lessons"
 }:GuideInfoCardProps) => {
     return (
-        <div className="w-[600px] h-[150px] flex flex-row bg-slate-300">
-            <div className="w-1/3">Image</div>
-            <div className="flex flex-col grow m-3">
+        <div className="w-[700px] p-2 h-[200px] flex flex-row bg-slate-300">
+            <div className="w-5/12 h-full"><img className="object-cover h-full w-full" src={
+                default_image
+            }/></div>
+            <div className="flex flex-col grow ml-2">
                 <div className="text-2xl">{title}</div>
                 <div>{extract}</div>
                 <div className="flex flex-row justify-between mt-auto"> 

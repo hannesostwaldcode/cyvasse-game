@@ -1,8 +1,6 @@
 import {unitKeys } from "../components/Unit"
 
 
-export const reserves: unitKeys[] = ["aB", "aB", "aD", "aH", "aS", "aS"]
-
 export const countryNameRecord = {
     AF: "Afghanistan",
     AL: "Albania",
@@ -268,6 +266,3 @@ export type reserve =  {
     endSquare: number
     unit: unitKeys[]
 }
-export const moves: move[]= [
-    {startSquare: 36, endSquare: 56, isCapture: false}
-]

@@ -2,8 +2,8 @@
     "public": {
         "pages": {
             "home": {
-                "title": "A title s",
-                "subtitle": "A subtitle",
+                "title": "Home Page",
+                "subtitle": "Home of the game!",
                 "action": "Learn More"
             },
             "learn": {

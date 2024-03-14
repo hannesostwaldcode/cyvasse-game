@@ -2,9 +2,33 @@
     "public": {
         "pages": {
             "home": {
-                "title": "Ein Titel",
-                "subtitle": "A subtditle",
+                "title": "Home Page",
+                "subtitle": "Home of the game!",
                 "action": "Learn More"
+            },
+            "learn": {
+                "title": "Guides",
+                "subtitle": "Lerne wie man spielt",
+                "sections": [
+                    {
+                        "title": "How to Play (New to Cyvasse)",
+                        "articles": [
+                            {
+                                "title": "The Board",
+                                "level": 1,
+                                "lesson-count": 3,
+                                "extract": "Learn about the layout of the board"
+                            },
+                            {
+                                "title": "How to move pieces",
+                                "level": 1,
+                                "lesson-count": 12,
+                                "extract": "Learn how the different pieces moves!"
+                            }
+                        ]
+                    }
+                ]
+                
             }
         },
         "assets": {
