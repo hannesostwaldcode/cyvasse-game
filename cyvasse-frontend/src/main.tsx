@@ -15,6 +15,10 @@ import { Dashboard } from './pages/Dashboard.tsx'
 import { ProtectedRoute } from './components/ProtectedRoute.tsx'
 import { Home } from './pages/Home.tsx'
 import { Learn } from './pages/Learn.tsx'
+import { LessonDisplay } from './components/learn/LessonDisplay.tsx'
+import { CourseOverview } from './components/CourseOverview.tsx'
+import { CourseDetail } from './components/CourseDetail.tsx'
+import { Social } from './pages/Social.tsx'
 
 
 const router = createBrowserRouter([
@@ -35,13 +39,32 @@ const router = createBrowserRouter([
             element: <Dashboard />,
           },
           {
+            path: "social",
+            element: <Social/>,
+          },
+          {
             path: "playgame/:gameId",
             element: <PlayArea/>,
           },
           {
             path: "learn",
             element: <Learn/>,
-          }
+            children: [
+              {
+                index: true,
+                element: <CourseOverview/>,  
+              },
+              {
+                path: ":courseId",
+                element: <CourseDetail/>,  
+              },
+              {
+                path: ":courseId/:lessonId",
+                element: <LessonDisplay/>,  
+              }
+            ]  
+          },
+          
       ]
 },
 ])

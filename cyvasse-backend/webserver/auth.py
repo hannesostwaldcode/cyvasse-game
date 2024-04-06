@@ -3,9 +3,12 @@ from flask import Blueprint, request, jsonify
 from . import db, jwt
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
                                unset_jwt_cookies, jwt_required, JWTManager
-from .models import User
+from .models import User, UserSchema, LogInSchema
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timezone, timedelta
+from marshmallow import ValidationError 
+import bleach
+
 auth = Blueprint('auth', __name__)
 
 @jwt.user_identity_loader
@@ -36,15 +39,19 @@ def refresh_expiring_jwts(response):
 
 @auth.route('/login', methods=['POST'])
 def login():
-
-    email = request.form.get('email', None)
-    password = request.form.get('password', None)
-    remember = True if request.form.get('remember') else False
-    print(email, password)
-    user = User.query.filter_by(email=email).first()
+    form_data = request.form
+    if not form_data:
+        return jsonify({'message': 'No input data provided'}), 400
+    schema = LogInSchema()
+    try: 
+        data = schema.load(form_data)
+    except ValidationError as err:
+        return jsonify(err.messages), 422
+    
+    user = User.query.filter_by(email=bleach.clean(data.get('email'))).first()
     # check if the user actually exists
     # take the user-supplied password, hash it, and compare it to the hashed password in the database
-    if not user or not check_password_hash(user.password, password):
+    if not user or not check_password_hash(user.password, data.get('password')):
         
         return {"msg": "Wrong Email or Password"}, 401 # if the user doesn't exist or password is wrong, reload the page
     access_token = create_access_token(identity=user)
@@ -53,16 +60,21 @@ def login():
 
 @auth.route('/signup', methods=['POST'])
 def signup():
-    email = request.form.get('email')
-    name = request.form.get('name')
-    password = request.form.get('password')
-    country = request.form.get('country', "NN")
-    elo = 1000
-    user = User.query.filter_by(email=email).first()
+    form_data = request.form
+    if not form_data:
+        return jsonify({'message': 'No input data provided'}), 400
+    schema = UserSchema()
+    try: 
+        data = schema.load(form_data)
+    except ValidationError as err:
+        return jsonify(err.messages), 422
+
+    user = User.query.filter_by(email=data.get('email')).first()
 
     if user:
-        return "Wrong"
-    new_user = User(email=email, name=name,country=country, elo=elo, password=generate_password_hash(password, method='pbkdf2'))
+        return "Email already exists", 403
+    new_user = User(email=bleach.clean(data.get('email')), name=bleach.clean(data.get('name')),country=bleach.clean(data.get('country')), elo=1000, password=generate_password_hash(bleach.clean(data.get('password')), method='pbkdf2'))
+
 
     db.session.add(new_user)
     db.session.commit()

@@ -6,9 +6,11 @@ import { useNavigate } from "react-router-dom";
 export function Home() {
     const navigate = useNavigate()
     return (
-        <div className="w-full mx-20 mt-10">
-            <div className="flex flex-row space-x-5">
-                <img width={500} height={500} src={Board}></img>
+      
+            <div className="flex flex-col md:flex-row space-x-5 mx-10 mt-10">
+                <div className="w-1/2">
+                <img className="cover"  src={Board}></img>
+                </div>
                 <div className="flex flex-col text-center items-center space-y-10">
                     <div className="text-3xl text-white">Play Cyvasse! A game inspired by Game of Thrones</div>
                     <div>Stats Row</div>
@@ -33,7 +35,6 @@ export function Home() {
                         </Button>
                 </div>
             </div>
-            
-        </div>
+         
     )
 }

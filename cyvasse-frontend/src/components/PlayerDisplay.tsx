@@ -50,8 +50,8 @@ export function PlayerDisplay({
     }
 
     return (
-        <div className="w-[300px] flex ">
-            <div className="w-16 overflow-hidden flex-shrink-0 h-16 bg-blue-500 rounded-md"><img width={64} height={64} src="/src/assets/user-image.svg"></img></div>
+        <div className="w-[300px] h-6 md:h-auto flex ">
+            <div className="w-6 h-6 md:w-10 md:h-10 overflow-hidden flex-shrink-0 bg-blue-500 rounded-md"><img width={64} height={64} src="/src/assets/user-image.svg"></img></div>
             <div className="flex ml-4 flex-col">
                 <div className="flex flex-row">{playerName} ({rating}) {country ? getCountryFlagEmoji(country) : "🏳"}</div>
                 <div className="flex my-auto flex-row">

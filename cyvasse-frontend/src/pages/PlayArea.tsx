@@ -1,11 +1,12 @@
 import { PositionType, unitKeys } from "../components/Unit";
 import { CountryCode, move} from "../data/board";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { PlayerDisplay } from "../components/PlayerDisplay";
 import { useAuth } from "@/components/provider/AuthProvider";
 import { PlayBoard } from "@/components/PlayBoard";
 import api from "@/lib/api";
+import { Button } from "@/components/ui/button";
 export type player = {
     id:         number,
     captures:   unitKeys[]
@@ -36,7 +37,7 @@ export function PlayArea() {
     const queryClient = useQueryClient()
     const params = useParams()
 
-
+    const navigate = useNavigate()
    
     const fetchBoard = async (): Promise<gameData> => {
         const res = await api.get(`/boardData/${params.gameId}`, {headers: {
@@ -93,16 +94,22 @@ export function PlayArea() {
     
     if(!gameData.id) return 'Game not found'
        
-    if(gameData.gameEnded) return 'Game has ended!'
+    if(gameData.gameEnded){
+        navigate('/dashboard') 
+        return <>
+        'Game has ended!'
+        <Button onClick={() => navigate('/dashboard')}>Return to Dashboard</Button>
+        </>
+        }
     
     return (
-        <>
-            <div className="mt-5 ml-auto mr-auto"> 
-                <div>
+    
+            <div className="mt-5 overflow-hidden h-full md:ml-32"> 
+                <div className="">
                 <PlayerDisplay 
                     country={gameData.playerOpponent.country}
                     imgUrl=""
-                    playerName={"Bot " + gameData.playerOpponent.name}
+                    playerName={gameData.playerOpponent.name}
                     rating={gameData.playerOpponent.elo}
                     units={gameData.playerOpponent.captures}
                     opponentUnits={gameData.playerSelf.captures}
@@ -124,6 +131,6 @@ export function PlayArea() {
                 
                 </div>
             </div>
-        </>
+
     )
 }

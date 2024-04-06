@@ -4,13 +4,20 @@ import { PositionType, Unit, unitKeys, unitStyles } from "../components/Unit";
 import {startUnits} from "../data/board";
 import { twMerge } from "tailwind-merge";
 import { fileCalc, rankCalc } from "../lib/positionCalc";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/components/provider/AuthProvider";
 import api from "@/lib/api";
+import { User } from "@/components/UserDisplay"
 import { Button } from "@/components/ui/button";
 import { ReservesDisplay } from "@/components/ReservesDisplay";
-
-
+import { CreateGameSidebar } from "@/components/CreateGameSidebar";
+import queryString from 'query-string';
+import { Check } from "lucide-react";
+   
+type Challenges = {
+    challenger: string;
+    game_id:    number;
+}
 
 export function CreateGame() {
     const {token} = useAuth()
@@ -20,26 +27,38 @@ export function CreateGame() {
     }
 
     const [availableObjects, setavailableObjects] = useState<unitKeys[]>(["F", "m", "m", "m"])
-    const [availabelUnits, setAvailableUnits] = useState(startUnits)
+    const [availabelUnits, setAvailableUnits] = useState([...startUnits])
     const [new_unit_positions, setNew_unit_positions] = useState<PositionType[]>([])
     const [toPlace, setToPlace] = useState<unitKeys>(undefined) 
     const [ShowAllSquares, setShowAllSquares] = useState(true)
     const [keepPosition, setKeepPosition] = useState<number[]>([])
     const [homeSquare, setHomeSquare] = useState<number[]>([])
+
+    const [friendGame, setFriendGame] = useState<number | null>(null)
+    const [friendOpponent, setFriendOpponent] = useState<number | null>(null)
+
     const keepPositionOperator = [1,10,11, 0]
     const homeSquareOperator = [-11, -10, -9, -8, -1, 2, 9, 12, 19,20,21,22]
-   
+
     
     
     const onSubmit = () => {
-        mutation.mutate({board: new_unit_positions, reserves: availabelUnits})
+        mutation.mutate({submitMove: {board: new_unit_positions, reserves: availabelUnits}, urlAddOn: null})
+        
     }
+    const mutationWithFriend = useMutation({
+        mutationFn: (data: {submitMove: {board: PositionType[], reserves: unitKeys[]}, game: number | null , friend: number | null} ) => {
+            let query = queryString.stringifyUrl({url: '/createGame/friend', query:{game: data.game, friend: data.friend}}, {skipNull: true})
+            return api.post(query, data.submitMove)
+        },
+        onSuccess: () => {
+            navigate("/dashboard")
+          },
+      })
 
     const mutation = useMutation({
-        mutationFn: (submitMove: { board: PositionType[], reserves: unitKeys[]}) => {
-          return api.post(`/createGame`, submitMove, {headers: {
-            Authorization: 'Bearer ' + token
-          }})
+        mutationFn: (data: {submitMove: { board: PositionType[], reserves: unitKeys[]}, urlAddOn: string | null}) => {
+          return api.post(`${data.urlAddOn ? `/createGame${data.urlAddOn}` : "/createGame"}`, data.submitMove)
         },
         onSuccess: () => {
             navigate("/dashboard")
@@ -72,6 +91,19 @@ export function CreateGame() {
         
     }
 
+    const fetchFriendGames = async (): Promise<Challenges[]> => {
+        const res = await api.get(`/createGame/friend`)
+        return res.data
+      }
+    const fetchFriends = async (): Promise<{data: User[]}> => {
+        const res = await api.get('/friends')
+        return res.data
+    }
+    const getFriendGames = 
+      useQuery({queryKey: ['friendgames'],queryFn: fetchFriendGames})
+    const getFriends = 
+        useQuery({queryKey: ['friends'], queryFn: fetchFriends})
+
     const objectSelected = (selected: unitKeys) => {
         let tempAvailable = availableObjects
         
@@ -84,6 +116,7 @@ export function CreateGame() {
     }
 
     const unitSelected = (selected: unitKeys) => {
+        if (toPlace) return
         let tempAvailable = availabelUnits
         setShowAllSquares(false)
         const index = tempAvailable.indexOf(selected);
@@ -144,6 +177,11 @@ export function CreateGame() {
     const renderList = () => {
         const listItems = [];
         for (let i = 1; i < 51; i++) {
+            if(toPlace == "F") {
+                if (i <= 11 || i >= 29 || (i >= 19 && i <= 21)) {
+                    continue
+                }
+            }
           listItems.push(<div key={i} onClick={() => setObject(i)} style={{top: `${rankCalc(i)}%`, left: `${fileCalc(i)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>);
         }
         return listItems;
@@ -153,41 +191,56 @@ export function CreateGame() {
 
     return (
     <div className="flex flex-col mx-auto">
-        <div className="text-2xl text-center space-y-5">Place your Units!</div>
-    <div className="flex flex-row">
-        <div className="p-3 flex justify-center">
+        <div className="text-4xl my-5 text-center space-y-5">Place your Units!</div>
+        
+    <div>
+        <div className="p-3 flex flex-col md:flex-row justify-center">
             
-            <div className="h-[600px] w-[600px] ml-10 relative bg-contain rotate-180 bg-no-repeat  bg-game-board-fow">
-                
+            <div className="h-[300px] w-[300px] md:h-[600px] md:w-[600px] ml-10 relative bg-contain rotate-180 bg-no-repeat  bg-game-board-fow">
+            {homeSquare && availableObjects.length == 0 && homeSquare.map(index => (
+                    <div onClick={() => setUnit(index)} style={{top: `${rankCalc(index)}%`, left: `${fileCalc(index)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-green-100")}></div>
+                ))}
             {new_unit_positions.map(unit => (
                         <Unit  onClick={() => {return}} flipped  key={unit.square} square={unit.square} unit={unit.unit}/>
                         ))}
-                {homeSquare && availableObjects.length == 0 && homeSquare.map(index => (
-                    <div onClick={() => setUnit(index)} style={{top: `${rankCalc(index)}%`, left: `${fileCalc(index)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-green-200")}></div>
-                ))}
+                
             {toPlace && ShowAllSquares && renderList()}
 
-           
 
             </div>
-            <div className="bg-slate-800 overflow-scroll w-40 h-[600px]">
+            <CreateGameSidebar
+             actionButton={
+             <Button disabled={availableObjects.length != 0 || availabelUnits.length > 19} variant={"default"} size={"lg"} onClick={onSubmit}>Play</Button>
+             }
+             secondary={
+                <div className="flex flex-col">
+                    <div>Friends:</div>
+                    {getFriends.data && getFriends.data.data.map((user) => ( <div className="my-1 mx-4 justify-between flex flex-row " onClick={() => {
+                        setFriendOpponent(user.id)
+                        setFriendGame(null)}}>
+                            {user.name} {friendOpponent == user.id ? <Check/> : <div/>}</div>))}
+                    <div>Game Invites:</div>
+                    {getFriendGames.data && getFriendGames.data.map((game) => (<div className="my-1 mx-4 justify-between  flex flex-row " onClick={() => {
+                        setFriendOpponent(null)
+                        setFriendGame(game.game_id)}}>{game.game_id} {game.challenger} {friendGame == game.game_id && <Check/>}</div>))}
+                <Button className="mx-auto mt-10" onClick={() => mutation.mutate({submitMove: {board: new_unit_positions, reserves: availabelUnits}, urlAddOn: '/bot'})}>Play Bot</Button>
+                <Button disabled={!friendOpponent && !friendGame || availableObjects.length != 0 || availabelUnits.length > 19} className="mx-auto mt-10" onClick={() => mutationWithFriend.mutate({submitMove: {board: new_unit_positions, reserves: availabelUnits}, friend: friendOpponent, game: friendGame})}>Play Friend</Button>
+               </div>
+             }
+             >
+            
                 {new_unit_positions.length < 7 ? (
                     <ReservesDisplay reserves={availableObjects} neutral selectedReserve={objectSelected}/>
                 ):(
                     <ReservesDisplay reserves={availabelUnits} neutral selectedReserve={unitSelected}/>
                                 
                 )}
-               
-
-                
-            </div>
+                <div>
+                    
+                </div>
+            </CreateGameSidebar>
         </div>
     </div>
-    {availableObjects.length == 0 && 
-                <div>
-                    <Button variant={"default"} size={"lg"} onClick={onSubmit}>Submit</Button>
-                </div>
-                }
     </div>
     )
 }

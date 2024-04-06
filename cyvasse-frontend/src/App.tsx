@@ -16,9 +16,13 @@ export default function App(){
     <SignupModal/>
   
  
-    <div className="flex flex-row bg-slate-600 h-screen">
-      <MainNavbar/>
-      <Outlet/>
+    <div className="h-screen bg-slate-500  w-screen fixed overflow-hidden">
+      <div className="flex w-full flex-col md:flex-row fixed overflow-hidden">
+          <MainNavbar/>
+          <div className="w-full mx-auto">
+            <Outlet/>
+          </div>
+        </div>
     </div>
     </AuthProvider>
     </AggregateTextProvider>

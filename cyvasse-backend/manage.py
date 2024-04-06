@@ -1,6 +1,6 @@
 from flask.cli import FlaskGroup
-
-from webserver import create_app, db
+from werkzeug.security import generate_password_hash
+from webserver import create_app, db, models
 
 app = create_app()
 cli = FlaskGroup(app)
@@ -10,6 +10,25 @@ def create_db():
     db.create_all()
     db.session.commit()
 
-    
+@cli.command("create_db_withdev")
+def create_db_withdev():
+    boardString = "am//////////////////////////aS//////am////////aFafaE////////////aBafafaT//////////am//aLaE//////////om//oRoSom//////////oHofofoL//////////////ofoFoE////////////////////om////////////////////////////// a aRaRaRaSaSaBaBaLaLaHaHaCaDaKoRoRoSoSoBoBoBoLoLoHoEoCoToDoK "
+    db.drop_all()
+    db.create_all()
+
+    #Add Users for Dev
+    one_user = models.User(email="test@fantasy.com", name="Hannes",country="DE", elo=1000, password=generate_password_hash("1234", method='pbkdf2'))
+    two_user = models.User(email="magnus@fantasy.com", name="Magnus Carlsen",country="NO", elo=1000, password=generate_password_hash("1234", method='pbkdf2'))
+    three_user = models.User(email="jan@fantasy.com", name="Jan Gustafsson",country="DE", elo=1000, password=generate_password_hash("1234", method='pbkdf2'))
+    db.session.add(one_user)
+    db.session.add(two_user)
+    db.session.add(three_user)
+
+    #Add Games for Dev
+    game_one = models.Board(positionString=boardString, player_alabaster_id=one_user.id, player_onyx_id=two_user.id)
+    game_two = models.Board(positionString=boardString, player_alabaster_id=three_user.id, player_onyx_id=two_user.id)
+    db.session.add(one_user)
+    db.session.add(one_user)
+    db.session.commit()
 if __name__ == "__main__":
     cli()

@@ -14,7 +14,7 @@ class GameState():
                               'T': self.getTrebuchetMoves, 'C': self.getCatapultMoves,
                               'R': self.getRabbleMoves, 'S': self.getSpearmanMoves,
                               'K': self.getKingMoves, 'E': self.getElephantMoves,
-                              'D': self.getDragonMoves, 'f': self.noMoves, 'm': self.noMoves}
+                              'D': self.getDragonMoves, 'f': self.noMoves, 'm': self.noMoves,  'x': self.noMoves}
         self.alabasterToMove = self.interpretedStrings[1]
         self.alabaster_reserves = self.interpretedStrings[2]
         self.onyx_reserves = self.interpretedStrings[3]

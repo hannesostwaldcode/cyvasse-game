@@ -252,8 +252,7 @@ export const countryNameRecord = {
 export type CountryCode = keyof typeof countryNameRecord
 
 export const startUnits: unitKeys[] = ["R","R","R", "S", "S", "S", "B", "B", "B",
-"L", "L", "L", "H", "H", "E", "E", "C", "T", "D", "K"]
-
+"L", "L", "L", "H", "H", "E", "E", "C", "T", "D", "K"] 
 export const emptyHomeSquares:  number[] = [8,5,6,7,15,18,25,35,37,38]
 
 export type move = {

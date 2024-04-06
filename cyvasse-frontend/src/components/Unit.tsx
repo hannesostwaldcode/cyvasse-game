@@ -2,7 +2,7 @@ import { VariantProps, cva } from "class-variance-authority"
 import { fileCalc, rankCalc } from "../lib/positionCalc"
 import { twMerge } from "tailwind-merge"
 
-const unitVariants = {
+export const unitVariants = {
     default: [""],
     C:    ["bg-C", "contrast-50"],
     B:     ["bg-B", "contrast-50"],
@@ -22,8 +22,8 @@ const unitVariants = {
     aC:    ["bg-aC"],
     aB:     ["bg-aB"],
     af:    [""],
-    ax:    ["bg-ax","w-[20%]", "h-[20%]"],
     aF:    ["bg-aF","w-[20%]", "h-[20%]"],
+    ax:    ["bg-ax","w-[20%]", "h-[20%]"],
     aD: ["bg-aD"],
     aE: ["bg-aE"],
     aH: ["bg-aH"],
@@ -39,7 +39,7 @@ const unitVariants = {
     oC:    ["bg-oC"],
     of:    [""],
     ox:    ["bg-ox","w-[20%]",  "h-[20%]"],
-    oF:    ["bg-oF","w-[20%]", "-translate-x-[50%]", "-translate-y-[50%]", "h-[20%]"],
+    oF:    ["bg-oF","w-[20%]", "h-[20%]"],
     oD: ["bg-oD"],
     oE: ["bg-oE"],
     oH: ["bg-oH"],

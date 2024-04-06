@@ -10,7 +10,7 @@ export function UserAuth() {
    
 
     return (
-        <div className="">
+        <div className="mx-3">
         {!token ? (
             <div className="space-x-3">
                 <Button  onClick={() => onOpen('logIn')}>Log In</Button>

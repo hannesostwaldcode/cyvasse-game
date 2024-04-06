@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { move } from "@/data/board";
 import { ReservesDisplay } from "./ReservesDisplay";
 import { UnitInfo } from "./UnitInfo";
+import { Button } from "./ui/button";
 
 type playBoardProps = {
     gameData: gameData
@@ -15,6 +16,7 @@ type playBoardProps = {
 export function PlayBoard({gameData, playMove}: playBoardProps) {
     const [isActiveField, setIsActiveField] = useState<number| undefined>(undefined)
     const [selectedMoves, setSelectedMoves] = useState<move[]>([])
+    const [showReserves, setShowReserves] = useState(false)
     const [selectedReserve, setSelectedReserve] = useState<unitKeys | undefined>(undefined)
     const [reserves, setReserves] = useState<number[]>([])
     const [infoObject, setInfoObject] = useState<unitKeys>(null)
@@ -43,6 +45,7 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
     }
 
     const handleSelectField = (square: number) => {
+        
         if(isActiveField){
             setIsActiveField(undefined)
             setInfoObject(undefined) 
@@ -54,12 +57,14 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
             setIsActiveField(square)
             // ToDo write less dodgy
             setSelectedReserve(undefined)
+           
         }
     }
 
     const handleSelectReserve = (unit: unitKeys) => {
         setIsActiveField(undefined)
         setSelectedReserve(unit)
+        setShowReserves(false)
         handleReserveFilter()
     
     }
@@ -70,47 +75,53 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
         setInfoObject(undefined) 
     }
     return (
-        <div className="flex flex-row py-5">
-        <div  className={`h-[600px] w-[600px]  flex-none relative bg-contain bg-no-repeat  bg-game-board ${gameData.self_alabaster ? "rotate-180" : ""}`}>
-                        <div onClick={() => {setIsActiveField(undefined),  setInfoObject(undefined)} } 
-                            className="h-[600px] w-[600px] absolute top-0 left-0"></div>
-                    
-                        {gameData.last_move && (
-                            <div>
-                            <div  style={{top: `${rankCalc(gameData.last_move.endSquare)}%`, left: `${fileCalc(gameData.last_move.endSquare)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>
-                            <div  style={{top: `${rankCalc(gameData.last_move.startSquare)}%`, left: `${fileCalc(gameData.last_move.startSquare)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>
-                        </div>
-                        )}
-
-                        {isActiveField && (
-                            <div  style={{top: `${rankCalc(isActiveField)}%`, left: `${fileCalc(isActiveField)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>
+        <div className={`flex flex-col md:flex-row py-5`}>
+            
+            <div  className={`w-[400px] sm:w-[500px] aspect-square  lg:w-[600px] flex-none relative bg-contain bg-no-repeat  bg-game-board ${gameData.self_alabaster ? "rotate-180" : ""}`}>
+                            <div onClick={() => {setIsActiveField(undefined), setShowReserves(false), setInfoObject(undefined)} } 
+                                className="h-[400px] w-[400px]  md:h-[600px] md:w-[600px] absolute top-0 left-0"></div>
                         
-                        )}
-                        {gameData.board.map(unit => (
-                            <Unit  onClick={handleSelectField} flipped={gameData.self_alabaster} key={unit.square} square={unit.square} unit={unit.unit}/>
-                            ))}
-                        {selectedReserve && (
-                            reserves.map(square => (
-                                <div onClick={() => handlePlayMove(null, square, selectedReserve)}  style={{top: `${rankCalc(square)}%`, left: `${fileCalc(square)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>
-                            ))
-                        )}
-                        
-                        {/* Move Fields */}
-                        {isActiveField && ( <>
-                        {selectedMoves.map(move => (
-                            <div key={move.endSquare} onClick={() => handlePlayMove(move.startSquare, move.endSquare, null)}  style={{top: `${rankCalc(move.endSquare)}%`, left: `${fileCalc(move.endSquare)}%`}} className={twMerge(unitStyles({unit: "default"}), "w-[10%] h-[10%]")}>
-                                <div className={`${move.isCapture ? "border-8 opacity-40 w-full h-full border-slate-400 rounded-full" : "w-[50%] h-[50%] opacity-75 bg-slate-700 translate-x-1/2 translate-y-1/2 rounded-full"}`}></div>
+                            {gameData.last_move && (
+                                <div>
+                                <div  style={{top: `${rankCalc(gameData.last_move.endSquare)}%`, left: `${fileCalc(gameData.last_move.endSquare)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>
+                                <div  style={{top: `${rankCalc(gameData.last_move.startSquare)}%`, left: `${fileCalc(gameData.last_move.startSquare)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>
                             </div>
-                            ))}
-                        </>)} 
-                    </div>
-                          
-                          <div className="flex justify-between flex-col">
-                          <ReservesDisplay title="Reserves" reserves={gameData.reserves} selectedReserve={handleSelectReserve}/>
-                          <button className={`rounded-md h-12 bg-gray-700 text-slate-200m ${gameData.doubleMove ? '' : 'hidden'}`} onClick={() => handlePlayMove(null, 0, null)}>Skip Double Rabble Move</button>
-                          {infoObject && <UnitInfo unit={infoObject}/>}
-                      </div>
+                            )}
 
-                      </div>
+                            {isActiveField && (
+                                <div  style={{top: `${rankCalc(isActiveField)}%`, left: `${fileCalc(isActiveField)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>
+                            
+                            )}
+                            {gameData.board.map(unit => (
+                                <Unit  onClick={handleSelectField} flipped={gameData.self_alabaster} key={unit.square} square={unit.square} unit={unit.unit}/>
+                                ))}
+                            {selectedReserve && (
+                                reserves.map(square => (
+                                    <div onClick={() => handlePlayMove(null, square, selectedReserve)}  style={{top: `${rankCalc(square)}%`, left: `${fileCalc(square)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-yellow-200")}></div>
+                                ))
+                            )}
+                            
+                            {/* Move Fields */}
+                            {isActiveField && ( <>
+                            {selectedMoves.map(move => (
+                                <div key={move.endSquare} onClick={() => handlePlayMove(move.startSquare, move.endSquare, null)}  style={{top: `${rankCalc(move.endSquare)}%`, left: `${fileCalc(move.endSquare)}%`}} className={twMerge(unitStyles({unit: "default"}), "w-[10%] h-[10%]")}>
+                                    <div className={`${move.isCapture ? "border-8 opacity-40 w-full h-full border-slate-400 rounded-full" : "w-[50%] h-[50%] opacity-75 bg-slate-700 translate-x-1/2 translate-y-1/2 rounded-full"}`}></div>
+                                </div>
+                                ))}
+                            </>)} 
+            </div>
+            <Button disabled={gameData.moves.length == 0 || gameData.reserves.length == 0} onClick={() => setShowReserves(true)} className="md:hidden bg-slate-300 flex flex-row w-32 mt-5 ml-auto">
+                {selectedReserve ? "Selected:" : "Select Reserve" }
+                {selectedReserve &&
+                <div className={twMerge(unitStyles({unit:selectedReserve, style: "icon"}))}></div>   
+                }
+            </Button>            
+            <div className={`${showReserves ? "absolute" : "hidden"} md:static md:flex justify-between flex-col`}>
+                <ReservesDisplay title="Reserves" reserves={gameData.reserves} selectedReserve={handleSelectReserve}/>
+                <button className={`rounded-md h-12 bg-gray-700 text-slate-200m ${gameData.doubleMove ? '' : 'hidden'}`} onClick={() => handlePlayMove(null, 0, null)}>Skip Double Rabble Move</button>
+                {infoObject && <UnitInfo unit={infoObject}/>}
+            </div>
+
+        </div>
     )
 }

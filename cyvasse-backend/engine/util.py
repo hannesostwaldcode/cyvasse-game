@@ -39,7 +39,7 @@ def boardstringToArray(gameString: str):
     return res, alabasterToMove, alabaster_reserves, onyx_reserves, doubleMove
 
 
-def JsonToBoardString(json, aToMove: bool,reserves, board = None):
+def JsonToBoardString(json, aToMove: bool, reserves, board = None):
     string_val = "/" * 200
     board_reserve = ""
     site = 'a'
@@ -50,7 +50,20 @@ def JsonToBoardString(json, aToMove: bool,reserves, board = None):
         string_val = splitted[0]
         board_reserve += splitted[2]
     for e in json:
-        if board:
+        print(string_val)
+        unit = e['unit']
+        square = e['square']
+        if unit == 'f':
+            continue
+        elif unit == 'F':
+            pattern = [10,1,11] if site == 'a' else [0, -10, -1]
+            pos = (0) if site == 'a' else (-11)
+            string_val = string_val[:squareHelper(site, square, pos)] + site + e['unit'] + string_val[squareHelper(site, square, pos) + 2:]
+            for placeholder_f in pattern:
+                new_pos = squareHelper(site, square, placeholder_f)
+                string_val = string_val[:new_pos] + site + 'f' + string_val[new_pos + 2:]
+            continue
+        elif board:
             index = (101-e['square']-1)*2
         else:
             index = (e['square']-1)*2
@@ -60,3 +73,10 @@ def JsonToBoardString(json, aToMove: bool,reserves, board = None):
     boardString = string_val + (' a ' if aToMove else ' o ') + board_reserve + " "
 
     return boardString
+
+def squareHelper(site: str, sqaure, mod):
+    if site == 'a':
+        return (sqaure-1 + mod)*2
+    elif site == 'o':  
+        return (101-sqaure-1 + mod)*2
+
