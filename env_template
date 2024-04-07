@@ -1,0 +1,8 @@
+FLASK_APP=webserver/__init__.py
+FLASK_DEBUG=0
+DATABASE_URL=postgresql://hello_flask:hello_flask@db:5432/hello_flask_prod
+SQL_HOST=db
+SQL_PORT=5432
+DATABASE=postgres
+SECRET_KEY=verySecretKey
+JWT_SECRET_KEY=alsoAGreatKey

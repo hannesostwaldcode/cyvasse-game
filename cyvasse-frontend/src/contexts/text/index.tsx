@@ -1,7 +1,5 @@
 import React, {createContext, useContext} from "react";
 import baseLangStrings from "./base-text-state.json"
-import german from "./lng-de-DE.json"
-import english  from "./lng-en-US.json"
 import { ChevronDown, ChevronUp, Flag } from "lucide-react";
 
 type WithChildren = {
