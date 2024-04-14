@@ -13,6 +13,7 @@ import { ReservesDisplay } from "@/components/ReservesDisplay";
 import { CreateGameSidebar } from "@/components/CreateGameSidebar";
 import queryString from 'query-string';
 import { Check } from "lucide-react";
+import { useCreateGameString } from "@/contexts/text";
    
 type Challenges = {
     challenger: string;
@@ -25,11 +26,12 @@ export function CreateGame() {
     if (!token) {
       return <Navigate to="/" replace />;
     }
-
+    const {area_title, sec_desc, prim_action, sec_action, title} = useCreateGameString();
     const [availableObjects, setavailableObjects] = useState<unitKeys[]>(["F", "m", "m", "m"])
     const [availabelUnits, setAvailableUnits] = useState([...startUnits])
     const [new_unit_positions, setNew_unit_positions] = useState<PositionType[]>([])
-    const [toPlace, setToPlace] = useState<unitKeys>(undefined) 
+    const [toPlace, setToPlace] = useState<unitKeys>(undefined)
+    const [showBoard, setShowBoard] = useState(true) 
     const [ShowAllSquares, setShowAllSquares] = useState(true)
     const [keepPosition, setKeepPosition] = useState<number[]>([])
     const [homeSquare, setHomeSquare] = useState<number[]>([])
@@ -191,55 +193,66 @@ export function CreateGame() {
 
     return (
     <div className="flex flex-col mx-auto">
-        <div className="text-4xl my-5 text-center space-y-5">Place your Units!</div>
-        
+        <div className="text-xl md:text-4xl my-5 text-center">{title}</div>
+        <Button className="lg:hidden mx-auto" onClick={() => setShowBoard(!showBoard)}>{showBoard ? "Show Opponent Options": "Show Board"}</Button>
+       
     <div>
-        <div className="p-3 flex flex-col md:flex-row justify-center">
+        <div className=" p-3 flex flex-row justify-center">
             
-            <div className="h-[300px] w-[300px] md:h-[600px] md:w-[600px] ml-10 relative bg-contain rotate-180 bg-no-repeat  bg-game-board-fow">
-            {homeSquare && availableObjects.length == 0 && homeSquare.map(index => (
+            <div className={`${showBoard ? "" : "hidden"} lg:flex flex flex-col`}>
+
+                <div className="h-[300px] w-[300px] md:h-[600px] md:w-[600px]  relative bg-contain shrink-0 rotate-180 bg-no-repeat  bg-game-board-fow">
+                {homeSquare && availableObjects.length == 0 && homeSquare.map(index => (
                     <div onClick={() => setUnit(index)} style={{top: `${rankCalc(index)}%`, left: `${fileCalc(index)}%`}} className={twMerge(unitStyles({unit: "default"}), "opacity-50 bg-green-100")}></div>
-                ))}
-            {new_unit_positions.map(unit => (
-                        <Unit  onClick={() => {return}} flipped  key={unit.square} square={unit.square} unit={unit.unit}/>
-                        ))}
-                
-            {toPlace && ShowAllSquares && renderList()}
-
-
-            </div>
-            <CreateGameSidebar
-             actionButton={
-             <Button disabled={availableObjects.length != 0 || availabelUnits.length > 19} variant={"default"} size={"lg"} onClick={onSubmit}>Play</Button>
-             }
-             secondary={
-                <div className="flex flex-col">
-                    <div>Friends:</div>
-                    {getFriends.data && getFriends.data.data.map((user) => ( <div className="my-1 mx-4 justify-between flex flex-row " onClick={() => {
-                        setFriendOpponent(user.id)
-                        setFriendGame(null)}}>
-                            {user.name} {friendOpponent == user.id ? <Check/> : <div/>}</div>))}
-                    <div>Game Invites:</div>
-                    {getFriendGames.data && getFriendGames.data.map((game) => (<div className="my-1 mx-4 justify-between  flex flex-row " onClick={() => {
-                        setFriendOpponent(null)
-                        setFriendGame(game.game_id)}}>{game.game_id} {game.challenger} {friendGame == game.game_id && <Check/>}</div>))}
-                <Button className="mx-auto mt-10" onClick={() => mutation.mutate({submitMove: {board: new_unit_positions, reserves: availabelUnits}, urlAddOn: '/bot'})}>Play Bot</Button>
-                <Button disabled={!friendOpponent && !friendGame || availableObjects.length != 0 || availabelUnits.length > 19} className="mx-auto mt-10" onClick={() => mutationWithFriend.mutate({submitMove: {board: new_unit_positions, reserves: availabelUnits}, friend: friendOpponent, game: friendGame})}>Play Friend</Button>
-               </div>
-             }
-             >
-            
-                {new_unit_positions.length < 7 ? (
-                    <ReservesDisplay reserves={availableObjects} neutral selectedReserve={objectSelected}/>
-                ):(
-                    <ReservesDisplay reserves={availabelUnits} neutral selectedReserve={unitSelected}/>
-                                
-                )}
-                <div>
+                    ))}
+                {new_unit_positions.map(unit => (
+                    <Unit  onClick={() => {return}} flipped  key={unit.square} square={unit.square} unit={unit.unit}/>
+                    ))}
                     
+                {toPlace && ShowAllSquares && renderList()}
+
+
                 </div>
+                <div className="w-full h-24 mx-auto">
+                {new_unit_positions.length < 7 ? (
+                        <ReservesDisplay reserves={availableObjects} neutral selectedReserve={objectSelected}/>
+                    ):(
+                        <ReservesDisplay reserves={availabelUnits} neutral selectedReserve={unitSelected}/>
+                                    
+                    )}
+                </div>
+            </div>
+           <div className={`${showBoard ? "hidden" : "block"} lg:block`}>
+            <CreateGameSidebar
+            title={area_title}>
+               <div className="flex p-2  h-full flex-col">
+                <div className="mb-5">
+                    <div className="text-lg font-bold">{sec_desc.friends}:</div>
+                        {getFriends.data && getFriends.data.data.map((user) => ( 
+                        <div className="my-1 mx-4 justify-between flex flex-row " onClick={() => {
+                            setFriendOpponent(user.id)
+                            setFriendGame(null)}}>
+                                {user.name} {friendOpponent == user.id ? <Check/> : <div/>}
+                        </div>))}
+                    <div className="text-lg font-bold">{sec_desc.games}:</div>
+                        {getFriendGames.data && getFriendGames.data.map((game) => (
+                        <div className="my-1 mx-4 justify-between  flex flex-row " onClick={() => {
+                            setFriendOpponent(null)
+                            setFriendGame(game.game_id)}}>
+                                {game.game_id} {game.challenger} {friendGame == game.game_id && <Check/>}
+                        </div>))}
+                        </div>
+                <div className="flex flex-col mt-auto mb-20 space-y-4">
+                <Button className="mx-auto" disabled={availableObjects.length != 0 || availabelUnits.length > 19} variant={"default"}  onClick={onSubmit}>{prim_action}</Button>
+                <Button className="mx-auto" disabled={availableObjects.length != 0 || availabelUnits.length > 19} onClick={() => mutation.mutate({submitMove: {board: new_unit_positions, reserves: availabelUnits}, urlAddOn: '/bot'})}>{sec_action.bot}</Button>
+                <Button disabled={!friendOpponent && !friendGame || availableObjects.length != 0 || availabelUnits.length > 19} className="mx-auto" onClick={() => mutationWithFriend.mutate({submitMove: {board: new_unit_positions, reserves: availabelUnits}, friend: friendOpponent, game: friendGame})}>{sec_action.friends}</Button>
+                    </div>
+               </div>
+             
             </CreateGameSidebar>
+            </div>    
         </div>
+       
     </div>
     </div>
     )

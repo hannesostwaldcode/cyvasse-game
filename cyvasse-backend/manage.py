@@ -20,15 +20,18 @@ def create_db_withdev():
     one_user = models.User(email="test@fantasy.com", name="Hannes",country="DE", elo=1000, password=generate_password_hash("1234", method='pbkdf2'))
     two_user = models.User(email="magnus@fantasy.com", name="Magnus Carlsen",country="NO", elo=1000, password=generate_password_hash("1234", method='pbkdf2'))
     three_user = models.User(email="jan@fantasy.com", name="Jan Gustafsson",country="DE", elo=1000, password=generate_password_hash("1234", method='pbkdf2'))
+    four_user = models.User(email="bot@fantasy.com", name="Dice Bot",country="US",is_ai=True, elo=200, password=generate_password_hash("1234", method='pbkdf2'))
+    
     db.session.add(one_user)
     db.session.add(two_user)
     db.session.add(three_user)
+    db.session.add(four_user)
 
     #Add Games for Dev
     game_one = models.Board(positionString=boardString, player_alabaster_id=one_user.id, player_onyx_id=two_user.id)
     game_two = models.Board(positionString=boardString, player_alabaster_id=three_user.id, player_onyx_id=two_user.id)
-    db.session.add(one_user)
-    db.session.add(one_user)
+    db.session.add(game_one)
+    db.session.add(game_two)
     db.session.commit()
 if __name__ == "__main__":
     cli()

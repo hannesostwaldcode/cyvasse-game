@@ -27,7 +27,7 @@ def get_friends():
 @home.route("/friend-request")
 @jwt_required()
 def get_friend_requests():
-    friend_req = User.query.filter(User.id != current_user.id).all()
+    friend_req = User.query.filter(User.id != current_user.id).filter(User.is_ai == False).all()
 
     return jsonify({"data": [user.serialized_with_friend(current_user.id) for user in friend_req]}), 200
 
@@ -37,8 +37,8 @@ def get_friend_requests():
 def friend_request(user_id):
     if request.method == 'POST':
         try:
-            user: User = User.query.filter(User.id == current_user.id).one()
-            requested: User = User.query.filter(User.id == user_id).one()
+            user: User = User.query.filter(User.id == current_user.id).filter(User.is_ai == False).one()
+            requested: User = User.query.filter(User.id == user_id).filter(User.is_ai == False).one()
         except:
             return "Logged In user does no exist", 401
      
@@ -54,9 +54,9 @@ def get_users():
     current_identity = get_jwt_identity()
     print(current_identity)
     if current_identity:
-        users = User.query.filter(User.id != current_user.id).order_by(User.name).limit(10).all()
+        users = User.query.filter(User.id != current_user.id).order_by(User.name).filter(User.is_ai == False).limit(10).all()
     else:
-        users = User.query.order_by(User.name).limit(10).all()
+        users = User.query.filter(User.is_ai == False).order_by(User.name).limit(10).all()
     return jsonify({"data": [user.serialized for user in users]}), 200
 
 @home.route("/archivedgames")

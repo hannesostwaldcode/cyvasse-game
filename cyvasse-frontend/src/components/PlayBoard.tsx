@@ -7,6 +7,8 @@ import { move } from "@/data/board";
 import { ReservesDisplay } from "./ReservesDisplay";
 import { UnitInfo } from "./UnitInfo";
 import { Button } from "./ui/button";
+import { Info, X } from "lucide-react";
+import { usePlayGameString } from "@/contexts/text";
 
 type playBoardProps = {
     gameData: gameData
@@ -14,9 +16,11 @@ type playBoardProps = {
 }
 
 export function PlayBoard({gameData, playMove}: playBoardProps) {
+    const {reserves_title }= usePlayGameString()
     const [isActiveField, setIsActiveField] = useState<number| undefined>(undefined)
     const [selectedMoves, setSelectedMoves] = useState<move[]>([])
     const [showReserves, setShowReserves] = useState(false)
+    const [showInfo, setShowInfo] = useState(false)
     const [selectedReserve, setSelectedReserve] = useState<unitKeys | undefined>(undefined)
     const [reserves, setReserves] = useState<number[]>([])
     const [infoObject, setInfoObject] = useState<unitKeys>(null)
@@ -75,11 +79,12 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
         setInfoObject(undefined) 
     }
     return (
-        <div className={`flex flex-col md:flex-row py-5`}>
-            
+        <div className={`flex flex-col py-1`}>
+             <Button onClick={() => setShowInfo(!showInfo)} className="w-12 h-12 my-2 " variant={"secondary"}><Info className="h-5 w-5"/></Button>
+            <div className="flex flex-row">
             <div  className={`w-[400px] sm:w-[500px] aspect-square  lg:w-[600px] flex-none relative bg-contain bg-no-repeat  bg-game-board ${gameData.self_alabaster ? "rotate-180" : ""}`}>
                             <div onClick={() => {setIsActiveField(undefined), setShowReserves(false), setInfoObject(undefined)} } 
-                                className="h-[400px] w-[400px]  md:h-[600px] md:w-[600px] absolute top-0 left-0"></div>
+                                className=" w-[400px]  sm:w-[500px] lg:w-[600px] aspect-square absolute top-0 left-0"></div>
                         
                             {gameData.last_move && (
                                 <div>
@@ -109,19 +114,29 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
                                 </div>
                                 ))}
                             </>)} 
+
+                <div className={`${showInfo ? "absolute" : "hidden"} ${gameData.self_alabaster ? "rotate-180" : ""}  top-[16.666%] opacity-95 left-[16.666%] w-2/3 h-2/3 rounded-md bg-slate-400`}>
+                <Button onClick={() => setShowInfo(!showInfo)} variant={"ghost"}><X className="h-5 w-5"/></Button>
+                 <UnitInfo onClick={() => {setShowInfo(!showInfo)}} unit={infoObject}/>
+            
+                </div>
+                </div>
+                        
+                <div className={`${showReserves ? "absolute" : "hidden"} lg:static lg:flex justify-between flex-col`}>
+                    <ReservesDisplay title={reserves_title} reserves={gameData.reserves} selectedReserve={handleSelectReserve}/>
+                    <button className={`rounded-md h-12 bg-gray-700 text-slate-200m ${gameData.doubleMove ? '' : 'hidden'}`} onClick={() => handlePlayMove(null, 0, null)}>Skip Double Rabble Move</button>
+                </div>
+
+                
             </div>
-            <Button disabled={gameData.moves.length == 0 || gameData.reserves.length == 0} onClick={() => setShowReserves(true)} className="md:hidden bg-slate-300 flex flex-row w-32 mt-5 ml-auto">
+            <Button disabled={gameData.moves.length == 0 || gameData.reserves.length == 0} onClick={() => setShowReserves(!showReserves)} className="lg:hidden bg-slate-300 flex flex-row w-32 my-2">
                 {selectedReserve ? "Selected:" : "Select Reserve" }
                 {selectedReserve &&
                 <div className={twMerge(unitStyles({unit:selectedReserve, style: "icon"}))}></div>   
                 }
-            </Button>            
-            <div className={`${showReserves ? "absolute" : "hidden"} md:static md:flex justify-between flex-col`}>
-                <ReservesDisplay title="Reserves" reserves={gameData.reserves} selectedReserve={handleSelectReserve}/>
-                <button className={`rounded-md h-12 bg-gray-700 text-slate-200m ${gameData.doubleMove ? '' : 'hidden'}`} onClick={() => handlePlayMove(null, 0, null)}>Skip Double Rabble Move</button>
-                {infoObject && <UnitInfo unit={infoObject}/>}
-            </div>
-
+            </Button>
+             
+            
         </div>
     )
 }

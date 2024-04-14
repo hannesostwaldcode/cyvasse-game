@@ -1,10 +1,155 @@
 {
+    "privat": {
+        "pages": {
+            "dashboard": {
+                "player_display": {
+                    "played": "Played"
+                },
+                "prim_actions" : [
+                {
+                    "target": "creategame",
+                    "title": "Play Online"
+                },
+                {
+                    "target": "social",
+                    "title": "Fiend Friends"
+                },
+                {
+                    "target": "settings",
+                    "title": "Settings"
+                }],
+                "sec_actions": {
+                    "friend": {
+                        "t_text": "vs. Friend",
+                        "action": "Play Friend"
+                    },
+                    "bot": {
+                        "t_text": "vs. Bot",
+                        "action": "Play Computer"
+                    },
+                    "learn": {
+                        "t_text": "Learn",
+                        "action": "Find Tuts"
+                    }
+                },
+                "game_overview": {
+                    "active_games": "Active Games",
+                    "archived_games": "Archived Games"
+                }
+            },
+            "creategame": {
+                "title": "Place Your Units!",
+                "area_title": "New Game",
+                "prim_action": "Play",
+                "sec_desc": {
+                    "games": "Game Invites",
+                    "friends": "Friend Invites"
+                    
+                },
+                "sec_action": {
+                    "bot": "Play against Bot",
+                    "friends":"Play Against Friends",
+                    "main": "More Options"
+                }
+            },
+            "playgame": {
+                "reserves_title": "Reserves",
+                "unit_info_default": {
+
+                "name": "NaN",
+                "description": "This doesnt seem to be a valid Unit"
+                },
+                "unit_info": [
+                    {
+                    "key": "C",
+                    "name": "Catapult",
+                    "description": "A mighty unit that can capture two units per move"
+                },
+                {
+                    "key": "B",
+                    "name": "Crossbowman",
+                    "description": "A light Unit that moves one field in the diagonal"
+                },
+                {
+                    "key": "F",
+                    "name": "Fort",
+                    "description": "Houses the Reserves. Can be destroyed if two opposition units enter its adjacent squares"
+                },
+                {
+                    "key": "f",
+                    "name": "Fort",
+                    "description": "Houses the Reserves. Can be destroyed if two opposition units enter its adjacent squares"
+                },
+                {
+                    "key": "D",
+                    "name": "Dragon",
+                    "description": "Moves in any direction and can bypass mountains and water fields"
+                },
+                {
+                    "key": "E",
+                    "name": "Elephant",
+                    "description": "This powerfull creature can only be captured if another enemy piece is adjacent"
+                },
+                {
+                    "key": "H",
+                    "name": "Heavy Horse",
+                    "description": "Moves in the diagonal"
+                },
+                {
+                    "key": "K",
+                    "name": "King",
+                    "description": "Moves one field in any direction. If captured the game is lost"
+                },
+                {
+                    "key": "L",
+                    "name": "Light Horse",
+                    "description": "Moves in a straight line. Can move off the edge of the board and enter on the opposite site"
+                },
+                {
+                    "key": "m",
+                    "name": "Mountain",
+                    "description": "Will block almost all units moves"
+                },
+                {
+                    "key": "S",
+                    "name": "Spearman",
+                    "description": "Moves one field in a straight line. Can change postion with friendly units"
+                },
+                {
+                    "key": "T",
+                    "name": "Trebuchet",
+                    "description": "Moves in a straight line. May bypass friendlys to capture"
+                },
+                {
+                    "key": "R",
+                    "name": "Rabble",
+                    "description": "Moves one field in a straigt line, if moved another rabble may be moved in the same turn"
+                }
+            
+            ]
+        },
+            "social": {
+                "title": "Social",
+                "befriend": "Befriend",
+                "send": "Send"
+            }
+        }
+    },
     "public": {
         "pages": {
+            "nav": {
+                "login": "Log In",
+                "logout": "Log Out",
+                "signup": "Sign Up",
+                "dashboard": "Dashboard",
+                "learn": "Learn",
+                "social": "Social",
+                "newgame": "New Game"
+            },
             "home": {
-                "title": "Home Page",
-                "subtitle": "Home of the game!",
-                "action": "Learn More"
+                "title": "Play Cyvasse! A game inspired by Game of Thrones",
+                "prim_action": { "title": "Play Online", "text":"Play against someone on your level"},
+                "sec_action": { "title": "Learn", "text":"Use our tutorials to get started"}
             },
             "learn": {
                     "title": "Guides",

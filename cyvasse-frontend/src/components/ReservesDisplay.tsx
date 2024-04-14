@@ -13,9 +13,9 @@ export function ReservesDisplay({
     title,
     neutral = false
 }:ReservesDisplayProps) {
-    return <div className="bg-slate-700">
+    return <div className="bg-slate-300 h-full">
             {title && <div className="text-center mt-2">{title}</div>}
-            <div className="grid grid-cols-3 gap-2 p-5 items-center h-auto w-auto">
+            <div className="grid grid-cols-4 gap-2 p-5 h-full items-center overflow-x-scroll w-auto">
                 
                 {reserves.map((reserve, index) => (
                 

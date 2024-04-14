@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import Board from "@/assets/Board.png"
 import { Book, Gamepad } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useHomeString } from "@/contexts/text";
 
 export function Home() {
     const navigate = useNavigate()
+    const {title, prim_action, sec_action} = useHomeString()
     return (
       
             <div className="flex flex-col md:flex-row space-x-5 mx-10 mt-10">
@@ -12,14 +14,13 @@ export function Home() {
                 <img className="cover"  src={Board}></img>
                 </div>
                 <div className="flex flex-col text-center items-center space-y-10">
-                    <div className="text-3xl text-white">Play Cyvasse! A game inspired by Game of Thrones</div>
-                    <div>Stats Row</div>
+                    <div className="text-3xl text-white">{title}</div>
                     <Button onClick={() => navigate('/createGame')} className="h-auto">
                         <div className="flex-row flex items-center">
                             <Gamepad className="w-8 h-8 mr-6"/>
                             <div className="mr-12">
-                                <div className="text-2xl">Play Online</div>
-                                <div className="text-sm">Play against someone on your level</div>
+                                <div className="text-2xl">{prim_action.title}</div>
+                                <div className="text-sm">{prim_action.text}</div>
                             </div>
                         </div>
                         </Button>
@@ -28,8 +29,8 @@ export function Home() {
                             <div className="flex-row flex items-center">
                             <Book className="w-8 h-8 mr-6"/>
                             <div className="mr-12">
-                                <div className="text-2xl">Learn</div>
-                                <div className="text-sm">Use our tutorials to get started</div>
+                                <div className="text-2xl">{sec_action.title}</div>
+                                <div className="text-sm">{sec_action.text}</div>
                             </div>
                         </div>
                         </Button>

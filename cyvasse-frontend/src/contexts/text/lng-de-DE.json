@@ -1,10 +1,154 @@
 {
+    "privat": {
+        "pages": {
+            "dashboard": {
+                "player_display": {
+                    "played": "Gespielt"
+                },
+                "prim_actions" : [
+                {
+                    "target": "creategame",
+                    "title": "Online Spielen"
+                },
+                {
+                    "target": "social",
+                    "title": "Freunde Finden"
+                },
+                {
+                    "target": "settings",
+                    "title": "Einstellungen"
+                }],
+                "sec_actions": {
+                    "friend": {
+                        "t_text": "gg. Freund",
+                        "action": "Spiel gegen Freunde"
+                    },
+                    "bot": {
+                        "t_text": "gg. Computer",
+                        "action": "Gegen die KI"
+                    },
+                    "learn": {
+                        "t_text": "Lernen",
+                        "action": "Tuts Finden"
+                    }
+                },
+                "game_overview": {
+                    "active_games": "Aktive Spiele",
+                    "archived_games": "Archivierte Spiele"
+                }
+            },
+            "creategame": {
+                "title": "Place Your Units!",
+                "area_title": "New Game",
+                "prim_action": "Play",
+                "sec_desc": {
+                    "games": "Game Invites",
+                    "friends": "Friend Invites"
+                },
+                "sec_action": {
+                    "bot": "Play against Bot",
+                    "friends":"Play Against Friends",
+                    "main": "More Options"
+                }
+            },
+            "playgame": {
+                "reserves_title": "Reserves",
+                "unit_info_default": {
+
+                "name": "NaN",
+                "description": "This doesnt seem to be a valid Unit"
+                },
+                "unit_info": [
+                    {
+                    "key": "C",
+                    "name": "Catapult",
+                    "description": "A mighty unit that can capture two units per move"
+                },
+                {
+                    "key": "B",
+                    "name": "Crossbowman",
+                    "description": "A light Unit that moves one field in the diagonal"
+                },
+                {
+                    "key": "F",
+                    "name": "Fort",
+                    "description": "Houses the Reserves. Can be destroyed if two opposition units enter its adjacent squares"
+                },
+                {
+                    "key": "f",
+                    "name": "Fort",
+                    "description": "Houses the Reserves. Can be destroyed if two opposition units enter its adjacent squares"
+                },
+                {
+                    "key": "D",
+                    "name": "Drache",
+                    "description": "Bewegt sich auf gerader Linie in jede Richtung. Überwindet alle 'Hindernisse'"
+                },
+                {
+                    "key": "E",
+                    "name": "Elephant",
+                    "description": "This powerfull creature can only be captured if another enemy piece is adjacent"
+                },
+                {
+                    "key": "H",
+                    "name": "Heavy Horse",
+                    "description": "Moves in the diagonal"
+                },
+                {
+                    "key": "K",
+                    "name": "King",
+                    "description": "Moves one field in any direction. If captured the game is lost"
+                },
+                {
+                    "key": "L",
+                    "name": "Light Horse",
+                    "description": "Moves in a straight line. Can move off the edge of the board and enter on the opposite site"
+                },
+                {
+                    "key": "m",
+                    "name": "Mountain",
+                    "description": "Will block almost all units moves"
+                },
+                {
+                    "key": "S",
+                    "name": "Spearman",
+                    "description": "Moves one field in a straight line. Can change postion with friendly units"
+                },
+                {
+                    "key": "T",
+                    "name": "Trebuchet",
+                    "description": "Moves in a straight line. May bypass friendlys to capture"
+                },
+                {
+                    "key": "R",
+                    "name": "Rabble",
+                    "description": "Moves one field in a straigt line, if moved another rabble may be moved in the same turn"
+                }
+            
+            ]
+        },
+            "social": {
+                "title": "Social",
+                "befriend": "Befriend",
+                "send": "Send"
+            }
+        }
+    },
     "public": {
         "pages": {
+            "nav": {
+                "login": "Log In",
+                "logout": "Log Out",
+                "signup": "Sign Up",
+                "dashboard": "Dashboard",
+                "learn": "Lernen",
+                "social": "Sozial",
+                "newgame": "Neues Spiel"
+            },
             "home": {
-                "title": "Home Page",
-                "subtitle": "Home of the game!",
-                "action": "Learn More"
+                "title": "Spiele Cyvasse! Ein Spiel Inspiriert durch Game of Thrones",
+                "prim_action": { "title": "Online Spielen", "text":"Spiele gegen jemanden auf deinem Level"},
+                "sec_action": { "title": "Lernen", "text":"Nutze die Tutorials um zu beginnen"}
             },
             "learn": {
                     "title": "Guides",
@@ -17,16 +161,22 @@
                                     "title": "The Board",
                                     "level": 1,
                                     "lessonCount": 3,
+                                    "extract": "Learn about the layout of the board",
+                                    "text": "The text",
+                                    "listTitle": "What you'll learn:",
+                                    "listItems": ["Moves","How to play","Something Interesting"],
                                     "lessons": [
                                         {
                                             "title": "Overview",
                                             "extract": "Learn how the different pieces moves!",
-                                            "text": "This is the text"
+                                            "text": "This is the text",
+                                            "videoUrl": "https://youtube.com/videoUrl"
                                         },
                                         {
                                             "title": "Obstacles on the Board",
                                             "extract": "Learn how the different pieces moves!",
-                                            "text": "This is the text"
+                                            "text": "This is the text",
+                                            "videoUrl": "https://youtube.com/videoUrl"
                                         }
                                     ]
                                 },
@@ -34,7 +184,75 @@
                                     "title": "How to move pieces",
                                     "level": 1,
                                     "lessonCount": 12,
-                                    "extract": "Learn how the different pieces moves!"
+                                    "extract": "Learn how the different pieces moves!",
+                                    "text": "The text",
+                                    "listTitle": "What you'll learn:",
+                                    "listItems": ["Moves","How to play","Something Interesting"],
+                                    "lessons": [
+                                        {
+                                            "title": "The King",
+                                            "extract": "Learn how the different pieces moves!",
+                                            "text": "This is the text",
+                                            "videoUrl": "https://youtube.com/videoUrl"
+                                        },
+                                        {
+                                            "title": "The Dragon",
+                                            "extract": "Learn how the different pieces moves!",
+                                            "text": "This is the text",
+                                            "videoUrl": "https://youtube.com/videoUrl"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "title": "First Steps (Beginner)",
+                            "courses": [
+                                {
+                                    "title": "The Board",
+                                    "level": 1,
+                                    "lessonCount": 3,
+                                    "extract": "Learn about the layout of the board",
+                                    "text": "The text",
+                                    "listTitle": "What you'll learn:",
+                                    "listItems": ["Moves","How to play","Something Interesting"],
+                                    "lessons": [
+                                        {
+                                            "title": "Overview",
+                                            "extract": "Learn how the different pieces moves!",
+                                            "text": "This is the text",
+                                            "videoUrl": "https://youtube.com/videoUrl"
+                                        },
+                                        {
+                                            "title": "Obstacles on the Board",
+                                            "extract": "Learn how the different pieces moves!",
+                                            "text": "This is the text",
+                                            "videoUrl": "https://youtube.com/videoUrl"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": "How to move pieces",
+                                    "level": 1,
+                                    "lessonCount": 12,
+                                    "extract": "Learn how the different pieces moves!",
+                                    "text": "The text",
+                                    "listTitle": "What you'll learn:",
+                                    "listItems": ["Moves","How to play","Something Interesting"],
+                                    "lessons": [
+                                        {
+                                            "title": "The King",
+                                            "extract": "Learn how the different pieces moves!",
+                                            "text": "This is the text",
+                                            "videoUrl": "https://youtube.com/videoUrl"
+                                        },
+                                        {
+                                            "title": "The Dragon",
+                                            "extract": "Learn how the different pieces moves!",
+                                            "text": "This is the text",
+                                            "videoUrl": "https://youtube.com/videoUrl"
+                                        }
+                                    ]
                                 }
                             ]
                         }

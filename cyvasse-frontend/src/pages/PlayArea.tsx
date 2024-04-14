@@ -104,11 +104,10 @@ export function PlayArea() {
     
     return (
     
-            <div className="mt-5 overflow-hidden h-full md:ml-32"> 
+            <div className="mt-5 overflow-hidden h-full md:ml-16"> 
                 <div className="">
                 <PlayerDisplay 
                     country={gameData.playerOpponent.country}
-                    imgUrl=""
                     playerName={gameData.playerOpponent.name}
                     rating={gameData.playerOpponent.elo}
                     units={gameData.playerOpponent.captures}
@@ -122,7 +121,6 @@ export function PlayArea() {
                 <div>
                 <PlayerDisplay 
                     country={gameData.playerSelf.country}
-                    imgUrl=""
                     playerName={gameData.playerSelf.name}
                     rating={gameData.playerSelf.elo}
                     opponentUnits={gameData.playerOpponent.captures}

@@ -63,6 +63,7 @@ class User(db.Model):
     country: Mapped[str]
     elo: Mapped[int]
     name: Mapped[str]
+    is_ai: Mapped[bool] = mapped_column(default=False)
 
     receiving_users = association_proxy('receiving_friends', 'receiving_user')
     requesting_users =  association_proxy('requesting_friends', 'requesting_user')
@@ -73,32 +74,29 @@ class User(db.Model):
     def findIfFriend(self, id):
         existing_friendship = Friendship.query.filter(((Friendship.requesting_user_id==self.id) & (Friendship.receiving_user_id==id)) | ((Friendship.requesting_user_id==id) & (Friendship.receiving_user_id==self.id))).first()
         if existing_friendship:
-            return {"req": True , "acc": existing_friendship.accepted}
+            if existing_friendship.requesting_user_id==self.id:
+                return {"req": True , "acc": existing_friendship.accepted, "receiv": True}
+            else:
+                return {"req": True , "acc": existing_friendship.accepted, "receiv": False}
         else:
-            return {"req": False , "acc": False}
+            return {"req": False , "acc": False, "receiv": False}
     
     def get_connected_users(self):
-    # Query for friendships where the user is either the requesting or receiving user
         friendships = Friendship.query.filter(or_(Friendship.requesting_user_id == self.id, Friendship.receiving_user_id == self.id)).filter(Friendship.accepted == True).all()
 
         connected_users = []
         for friendship in friendships:
-            # Add the connected user to the list based on their role in the friendship
             connected_user_id = friendship.requesting_user_id if friendship.receiving_user_id == self.id else friendship.receiving_user_id
             connected_user = User.query.get(connected_user_id)
             connected_users.append(connected_user)
 
         return connected_users
     def add_user(self, user, role):
-    # Check if the friendship already exists
         existing_friendship = Friendship.query.filter(((Friendship.requesting_user_id==self.id) & (Friendship.receiving_user_id==user.id)) | ((Friendship.requesting_user_id==user.id) & (Friendship.receiving_user_id==self.id))).first()
         if existing_friendship:
             if existing_friendship.receiving_user_id == self.id and not existing_friendship.accepted:
                  existing_friendship.accepted = True
-            print("hi")
-            # Friendship already exists, you can update the role here if needed
         else:
-            # Friendship doesn't exist, create a new one
             new_friendship = Friendship(requesting_user_id=self.id, receiving_user_id=user.id, accepted=role)
             db.session.add(new_friendship)
         db.session.commit()  

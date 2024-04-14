@@ -54,6 +54,7 @@ export const unitStyles = cva(["bg-contain"],{
     variants: {
         style: {
             icon: ["w-6", "h-6", "static"],
+            big_icon: ["w-32", "h-32", "static"],
             default: [ "absolute", "w-[10%]", "h-[10%]"],
             default_flip: [ "absolute", "w-[10%]", "h-[10%]", "rotate-180"]
             

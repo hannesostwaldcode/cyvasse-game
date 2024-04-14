@@ -11,8 +11,11 @@ export type User = {
     id:         number
     gamePlayed: number
 }
+type UserDisplayProps = {
+    played: string
+}
 
-export const UserDisplay = () => {
+export const UserDisplay = ({played}: UserDisplayProps) => {
     const fetchUser = async (): Promise<User> => {
         const res = await api.get(`/currentuser`)
         console.log(res.data)
@@ -31,7 +34,7 @@ export const UserDisplay = () => {
             {user.name}({user.elo}) {getCountryFlagEmoji(user.country)} 
             </div>
             <div className="flex flex-row ml-auto items-center">
-                Played: {user.gamePlayed} <LucideGrid className="ml-2"/> 
+                {played}: {user.gamePlayed} <LucideGrid className="ml-2"/> 
             </div>
         </div>
     )

@@ -1,19 +1,20 @@
 import { UserCards } from "@/components/UserCards"
 import { User } from "@/components/UserDisplay"
+import { useSocialString } from "@/contexts/text"
 import api from "@/lib/api"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-export type UserWithFriend = User & {friend: {req: boolean, acc: boolean}}
+export type UserWithFriend = User & {friend: {req: boolean, acc: boolean, receiv: boolean}}
 
 export function Social() {
-
-    
+    const queryClient = useQueryClient()
+    const {title} = useSocialString()
     const mutation = useMutation({
         mutationFn: (id: number) => {
           return api.post(`/friend-request/${id}`)
         },
         onSuccess: () => {
-            
+            queryClient.invalidateQueries({ queryKey: ['friend-requests'] })
           },
       })
 
@@ -37,12 +38,30 @@ export function Social() {
 
     return(
         <div>
-            Social
-            {data.data.map((user) => (
-            <UserCards onClick={(e) => {mutation.mutate(e)}} user={user}/>
+            <div className="text-2xl">{title}</div>
+            <div>
+            <div className="flex flex-col">
+                Friends:
+                {data.data.filter((u) => u.friend.acc).map((user) => (
+                <UserCards onClick={(e) => {mutation.mutate(e)}} user={user}/>
 
-            ))}
-
+                ))}
+            </div>
+            <div className="flex flex-col">  
+                Requested:
+                {data.data.filter((u) => u.friend.req && !u.friend.acc).map((user) => (
+                    <UserCards onClick={(e) => {mutation.mutate(e)}} user={user}/>
+                    
+                    ))}
+            </div>
+            <div className="flex flex-col">
+                Users:
+                {data.data.filter((u) => !u.friend.req).map((user) => (
+                    <UserCards onClick={(e) => {mutation.mutate(e)}} user={user}/>
+                    
+                    ))}
+            </div>
+            </div>
           
         </div>
     )

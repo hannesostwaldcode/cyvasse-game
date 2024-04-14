@@ -6,7 +6,6 @@ import { useEffect, useState } from "react"
 type PlayerDisplayProps = {
     playerName: string
     rating:     number
-    imgUrl:     string
     country:    CountryCode
     units:      unitKeys[]
     opponentUnits: unitKeys[]
@@ -19,7 +18,6 @@ export function PlayerDisplay({
     rating,
     units,
     country,
-    imgUrl,
     opponentUnits
 }: PlayerDisplayProps){
     const [playerAdvantage, setplayerAdvantage] = useState(0)
@@ -50,12 +48,11 @@ export function PlayerDisplay({
     }
 
     return (
-        <div className="w-[300px] h-6 md:h-auto flex ">
+        <div className="w-[600px] h-6 flex md:h-auto">
             <div className="w-6 h-6 md:w-10 md:h-10 overflow-hidden flex-shrink-0 bg-blue-500 rounded-md"><img width={64} height={64} src="/src/assets/user-image.svg"></img></div>
-            <div className="flex ml-4 flex-col">
+            <div className="flex ml-4 flex-row lg:flex-col">
                 <div className="flex flex-row">{playerName} ({rating}) {country ? getCountryFlagEmoji(country) : "🏳"}</div>
-                <div className="flex my-auto flex-row">
-                    {imgUrl}
+                <div className="flex flex-row">
                 {units.map(e => (
                      <div key={e} className={`bg-cover -mr-2.5 w-6 h-6 bg-${e}`}/> 
               
