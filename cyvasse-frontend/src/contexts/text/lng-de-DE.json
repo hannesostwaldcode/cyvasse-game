@@ -127,15 +127,27 @@
             
             ]
         },
-            "social": {
-                "title": "Social",
-                "befriend": "Befriend",
-                "send": "Send"
-            }
+        "social": {
+            "title": "Social",
+            "befriend": "Befriend",
+            "send": "Send",
+            "friends": "Friends",
+            "requested": "Friend Requests",
+            "users": "Other Users"
+        }
         }
     },
     "public": {
         "pages": {
+            "auth": {
+                "password": "Password",
+                "country": "Country",
+                "acc_login": "Log In",
+                "acc_sign": "Sign Up!",
+                "name":"Name",
+                "signup": "Sign Up",
+                "signin": "Sign In"
+            },
             "nav": {
                 "login": "Log In",
                 "logout": "Log Out",

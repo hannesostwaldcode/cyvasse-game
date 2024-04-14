@@ -8,7 +8,7 @@ export type UserWithFriend = User & {friend: {req: boolean, acc: boolean, receiv
 
 export function Social() {
     const queryClient = useQueryClient()
-    const {title} = useSocialString()
+    const {title, friends, requested, users} = useSocialString()
     const mutation = useMutation({
         mutationFn: (id: number) => {
           return api.post(`/friend-request/${id}`)
@@ -37,25 +37,25 @@ export function Social() {
     }
 
     return(
-        <div>
-            <div className="text-2xl">{title}</div>
+        <div className="flex flex-col p-5">
+            <div className="text-2xl mx-auto">{title}</div>
             <div>
-            <div className="flex flex-col">
-                Friends:
+            <div className="flex flex-col text-lg">
+                {friends}:
                 {data.data.filter((u) => u.friend.acc).map((user) => (
                 <UserCards onClick={(e) => {mutation.mutate(e)}} user={user}/>
 
                 ))}
             </div>
-            <div className="flex flex-col">  
-                Requested:
+            <div className="flex flex-col text-lg">  
+                {requested}:
                 {data.data.filter((u) => u.friend.req && !u.friend.acc).map((user) => (
                     <UserCards onClick={(e) => {mutation.mutate(e)}} user={user}/>
                     
                     ))}
             </div>
-            <div className="flex flex-col">
-                Users:
+            <div className="flex flex-col text-lg">
+                {users}:
                 {data.data.filter((u) => !u.friend.req).map((user) => (
                     <UserCards onClick={(e) => {mutation.mutate(e)}} user={user}/>
                     

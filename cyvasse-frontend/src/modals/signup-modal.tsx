@@ -9,6 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useAuthtring } from "@/contexts/text"
 
 const formSchema = z.object({
     email: z.string().min(1),
@@ -20,6 +21,7 @@ const formSchema = z.object({
 export const SignupModal = () => {
     const {isOpen, onClose, type} = useModal()
     const {setToken} = useToken()
+    const {acc_sign, country, password, name, signup} = useAuthtring()
     const isModalOpen = isOpen && type === "signUp";
 
     
@@ -55,7 +57,7 @@ export const SignupModal = () => {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>
-                        Sign Up
+                        {signup}
                     </DialogTitle>
                 </DialogHeader>
             <Form {...form}>
@@ -90,7 +92,7 @@ export const SignupModal = () => {
                                     render={({field}) => (
                                         <FormItem>
                                                 <FormLabel>
-                                                    Name
+                                                    {name}
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -110,7 +112,7 @@ export const SignupModal = () => {
                                     render={({field}) => (
                                         <FormItem>
                                                 <FormLabel>
-                                                    Password
+                                                    {password}
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -132,7 +134,7 @@ export const SignupModal = () => {
                                     render={({}) => (
                                         <FormItem className="flex flex-col">
                                                 <FormLabel>
-                                                    Country
+                                                    {country}
                                                 </FormLabel>
                                                 <FormControl>
                                                     
@@ -146,7 +148,7 @@ export const SignupModal = () => {
                 
                 <DialogFooter>
                                 <Button variant={"default"} disabled={isLoading}>
-                                        Save
+                                        {acc_sign}
                                 </Button>
                             </DialogFooter>
                             </form>

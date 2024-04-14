@@ -67,7 +67,9 @@ export function AggregateTextProvider({ children}: WithChildren){
         </TextProvidingWrapper>
     )
 }
-
+export function useAuthtring() {
+    return useContext(baseTextContext).public.pages.auth;
+}
 export function useHomeString() {
     return useContext(baseTextContext).public.pages.home;
 }

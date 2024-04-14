@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useAuth } from "@/components/provider/AuthProvider"
+import { useAuthtring } from "@/contexts/text"
 
 const formSchema = z.object({
     email: z.string().min(1),
@@ -17,7 +18,7 @@ export const LoginModal = () => {
     const {isOpen, onClose, type} = useModal()
     const isModalOpen = isOpen && type === "logIn";
     const {onLogin} = useAuth()
-    
+    const {acc_login, signin, password} = useAuthtring()
 
 
     const form = useForm({
@@ -47,7 +48,7 @@ export const LoginModal = () => {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>
-                        Log In
+                        {signin}
                     </DialogTitle>
                 </DialogHeader>
             <Form {...form}>
@@ -81,7 +82,7 @@ export const LoginModal = () => {
                                     render={({field}) => (
                                         <FormItem>
                                                 <FormLabel>
-                                                    Password
+                                                    {password}
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -99,7 +100,7 @@ export const LoginModal = () => {
                 
                 <DialogFooter>
                                 <Button variant={"default"} disabled={isLoading}>
-                                        Save
+                                        {acc_login}
                                 </Button>
                             </DialogFooter>
                             </form>
