@@ -16,7 +16,7 @@ type playBoardProps = {
 }
 
 export function PlayBoard({gameData, playMove}: playBoardProps) {
-    const {reserves_title }= usePlayGameString()
+    const {reserves_title, res_text}= usePlayGameString()
     const [isActiveField, setIsActiveField] = useState<number| undefined>(undefined)
     const [selectedMoves, setSelectedMoves] = useState<move[]>([])
     const [showReserves, setShowReserves] = useState(false)
@@ -123,7 +123,7 @@ export function PlayBoard({gameData, playMove}: playBoardProps) {
                 </div>
                         
                 <div className={`${showReserves ? "absolute" : "hidden"} lg:static lg:flex justify-between flex-col`}>
-                    <ReservesDisplay title={reserves_title} reserves={gameData.reserves} selectedReserve={handleSelectReserve}/>
+                    <ReservesDisplay title={reserves_title} res_text={res_text} reserves={gameData.reserves} selectedReserve={handleSelectReserve}/>
                     <button className={`rounded-md h-12 bg-gray-700 text-slate-200m ${gameData.doubleMove ? '' : 'hidden'}`} onClick={() => handlePlayMove(null, 0, null)}>Skip Double Rabble Move</button>
                 </div>
 

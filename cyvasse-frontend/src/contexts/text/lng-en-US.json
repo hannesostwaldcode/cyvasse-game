@@ -53,6 +53,7 @@
             },
             "playgame": {
                 "reserves_title": "Reserves",
+                "res_text": "Select a unit to deploy at your fortres. This counts as a turn",
                 "unit_info_default": {
 
                 "name": "NaN",

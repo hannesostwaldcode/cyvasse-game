@@ -25,7 +25,8 @@ def createBotGame():
         reserves = val_data.get('reserves')
         boardString_temp = JsonToBoardString(board, True, reserves)
         boardString = JsonToBoardString(AI_POSITION["board"], True, AI_POSITION["reserves"], boardString_temp)
-        board = Board(positionString=boardString, player_alabaster_id=current_user.id, player_onyx_id=4, ai_game=True)
+        ai = User.query.filter(User.is_ai == True).first()
+        board = Board(positionString=boardString, player_alabaster_id=current_user.id, player_onyx_id=ai.id, ai_game=True)
         db.session.add(board)
         db.session.commit()
         return {"msg": "Created AI Game"}, 200

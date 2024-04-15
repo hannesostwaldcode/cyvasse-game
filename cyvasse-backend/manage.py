@@ -8,6 +8,8 @@ cli = FlaskGroup(app)
 def create_db():
     db.drop_all()
     db.create_all()
+    bot_user = models.User(email="bot@fantasy.com", name="Dice Bot",country="US",is_ai=True, elo=200, password=generate_password_hash("1234", method='pbkdf2'))
+    db.session.add(bot_user)
     db.session.commit()
 
 @cli.command("create_db_withdev")
