@@ -9,7 +9,7 @@ export const CourseDetail = () => {
     const res = useArticleString(params.courseId)
     if (!res) {return <div>Article not found</div>}
     return (
-        <div className="w-full mx-auto md:w-1/2">
+        <div className="w-full mx-auto md:w-3/4">
         <div className="gap-3 flex flex-col">
             <CourseHeader course={res} imgUrl="lol"/>
             {res.lessons.map((e) => (

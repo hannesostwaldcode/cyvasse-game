@@ -19,7 +19,7 @@ export const UserCards = ({
     
 
     return (
-        <div onClick={() => onClick(user.id)}  className="mx-auto flex w-2/3 h-20 items-center rounded-md overflow-hidden bg-slate-400">
+        <div onClick={() => onClick(user.id)}  className="mx-auto flex w-2/3 h-20 items-center shrink-0 rounded-md overflow-hidden bg-slate-400">
                     <div className="ml-5 text-lg">{user.name} </div>
                     <div className="ml-5 text-lg">{getCountryFlagEmoji(user.country)} </div>
                     <div className="ml-5 text-lg">Elo: {user.elo} </div>

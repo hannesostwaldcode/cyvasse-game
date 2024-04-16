@@ -4,6 +4,7 @@ from datetime import timedelta
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
+#Modify .env in root directory, values here are for DEV only
 class Config(object):
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:///db.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -4,7 +4,7 @@ import { GuideInfoCard } from "./learn/GuideInfoCard"
 export const CourseOverview = () => {
     const {sections} = useLearnString()
     return (
-        <div className="mx-auto w-1/2">
+        <div className="mx-auto w-3/4">
         {sections.map(section => (
                     
             <div key={section.title} className="flex my-10 flex-col gap-6">

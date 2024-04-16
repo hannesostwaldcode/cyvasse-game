@@ -17,6 +17,7 @@ def get_current_user():
     user = User.query.filter_by(id = current_user.id).first()
     return user.serialized, 200
 
+#Get friends for Logged In User
 @home.route("/friends")
 @jwt_required()
 def get_friends():
@@ -24,6 +25,7 @@ def get_friends():
     friends = self.get_connected_users()
     return jsonify({"data": [user.serialized for user in friends]}), 200
 
+# Get all Users with friend status Info attached
 @home.route("/friend-request")
 @jwt_required()
 def get_friend_requests():
@@ -32,6 +34,7 @@ def get_friend_requests():
     return jsonify({"data": [user.serialized_with_friend(current_user.id) for user in friend_req]}), 200
 
 
+# Befriend or request friendship with User Id
 @home.route("/friend-request/<int:user_id>",  methods=['GET', 'POST'])
 @jwt_required()
 def friend_request(user_id):
@@ -59,6 +62,7 @@ def get_users():
         users = User.query.filter(User.is_ai == False).order_by(User.name).limit(10).all()
     return jsonify({"data": [user.serialized for user in users]}), 200
 
+#Get all archived game by user 
 @home.route("/archivedgames")
 @jwt_required() #new line
 def get_archived_games():
@@ -66,6 +70,7 @@ def get_archived_games():
     games = Board.query.filter(or_(Board.player_alabaster_id == user_id, Board.player_onyx_id == user_id)).filter(and_(Board.player_alabaster_id.is_not(None), Board.player_onyx_id.is_not(None))).filter(Board.unready != True, Board.archived == True).all()
     return jsonify({"data": [game.serialized_with_id(current_user.id) for game in games]}), 200
 
+#Get all active games by user
 @home.route("/games")
 @jwt_required() #new line
 def get_games():

@@ -1,6 +1,5 @@
 import { useLessonString } from "@/contexts/text"
 import { useParams } from "react-router-dom"
-import video from "@/assets/Overview_ENG.mp4"
 
 export const LessonDisplay = () => {
     const params = useParams()
@@ -10,11 +9,10 @@ export const LessonDisplay = () => {
     return (
         <div className="w-full mx-auto">
         <div className="flex flex-row justify-around">
-            <video width={900} height={720} autoPlay controls src={video}/>
-            
-            <div className="w-[400px] ml-5 bg-slate-800 rounded-md">
-            <div className="w-full bg-slate-900 font-bold text-2xl rounded-t-md">{res.title}</div>
-                    {res.text}
+           
+            <div className="w-[400px] ml-5 bg-slate-600 rounded-md">
+            <div className="w-full bg-slate-700 font-bold text-2xl p-5 rounded-t-md">{res.title}</div>
+                <div className="p-5">    {res.text} </div>
             </div>
         </div>
         </div>

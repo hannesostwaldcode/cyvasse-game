@@ -55,7 +55,7 @@ export function Dashboard() {
   
     if (error) return 'An error has occurred: ' + error.message
     return (
-       <div className="flex flex-col w-full md:p-3 lg:w-2/3 justify-center mx-auto m-5">
+       <div className="flex flex-col w-full  md:p-3 lg:w-2/3 justify-center mx-auto m-5">
         <div className="w-full flex flex-row">
           <div className="mx-auto">
             <UserDisplay played={player_display.played}/>
@@ -93,9 +93,10 @@ export function Dashboard() {
 
           </div>
         </div>
-        <div className="flex flex-col overflow-auto">
-        <div className="rounded-md overflow-hidden border-slate-400 border-4 mt-5 pt-5 flex-col bg-slate-400">
+        <div className="flex flex-col">
+        <div className="rounded-md overflow-scroll max-h-[200px] border-slate-400 border-4 mt-5 pt-5 flex-col bg-slate-400">
           <h1 className="text-xl ml-4 font-bold">{game_overview.active_games}</h1>
+          
         {games.data.map(e => (
           <div onClick={() => onClick(e.id)} key={e.id} className="flex mt-5 justify-between items-center bg-slate-500">
         
@@ -106,10 +107,12 @@ export function Dashboard() {
           <SmallBoardDisplay board={e.board} size="tiny" alabasterPlayer/>
           </div>
         ))}
+      
         </div>
 
-        <div className="rounded-md overflow-hidden  border-slate-400 border-4 mt-5 pt-5 flex-col bg-slate-400">
+        <div className="rounded-md overflow-scroll max-h-[200px]  border-slate-400 border-4 mt-5 pt-5 flex-col bg-slate-400">
           <h1 className="text-xl ml-4 font-bold">{game_overview.archived_games}</h1>
+   
         {archivedGames.data?.data && archivedGames.data.data.map(e => (
           <div key={e.id} className="flex mt-5 justify-between items-center bg-slate-500">
         
@@ -120,6 +123,8 @@ export function Dashboard() {
           <SmallBoardDisplay board={e.board} size="tiny" alabasterPlayer/>
           </div>
         ))}
+    
+    
         </div>
         </div>
    </div>

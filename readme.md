@@ -7,22 +7,22 @@ Play Area:
 ![Alt text](documentation/images/PlayArea.png)
 
 ## Project Structure 
-In this Repo youll find two main folders: 
+In this repo, you find two main folders: 
 1. "cyvasse-backend" contains all files regarding the python/flask backend server as well as the local Dev DB
 2. "cyvasse-frontend "contains the react/typescript source code for the frontend 
 
-Addionally 
-1. "documentation" containing some addional material for readme, etc.
+Additionally 
+1. "documentation" containing some additional material for readme, etc.
 2. "nginx" the config file for the prod nginx server
 
 
-### Congfigs
-The backend config can be in cyvasse-backend/webserver/config.py. Configurations that can or should be changed for deploy will be discussed in the docker sections, since they shouldnt be changed in this file.
+### Configs
+The backend config can be in cyvasse-backend/webserver/config.py. Configurations that can or should be changed for deploy will be discussed in the docker sections since they shouldn't be changed in this file.
 
 ## Docker
-The project can be run as docker containers, this is easy and will work on any system that has docker installed. The dev compose file wont run the frontend, for it you have to refer to the local installation instructions.
+The project can be run as docker containers, this is easy and will work on any system that has docker installed. The dev compose file won't run the frontend, for it, you have to refer to the local installation instructions.
 Docker requires a env file, for this you can copy or rename the env_template to .env.dev
-For locally running and testing you dont need to make any changes.
+For locally running and testing you don't need to make any changes.
 
 
 ```bash
@@ -77,7 +77,7 @@ npm run dev
 Requirements:
 - Python
 - pip
-- (Recommended) A virtual env off your choosing
+- (Recommended) A virtual env of your choosing
 
 With your virtual env set up and mounted run:
 

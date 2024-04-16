@@ -71,6 +71,7 @@ class User(db.Model):
     onyx_games: Mapped[List["Board"]] = relationship(back_populates="player_onyx", foreign_keys=[Board.player_onyx_id])
     alabaster_games: Mapped[List["Board"]] = relationship(back_populates="player_alabaster", foreign_keys=[Board.player_alabaster_id]) 
 
+    #Helper Functions for Friendship
     def findIfFriend(self, id):
         existing_friendship = Friendship.query.filter(((Friendship.requesting_user_id==self.id) & (Friendship.receiving_user_id==id)) | ((Friendship.requesting_user_id==id) & (Friendship.receiving_user_id==self.id))).first()
         if existing_friendship:
@@ -100,6 +101,8 @@ class User(db.Model):
             new_friendship = Friendship(requesting_user_id=self.id, receiving_user_id=user.id, accepted=role)
             db.session.add(new_friendship)
         db.session.commit()  
+   
+   
     @property
     def serialized(self):
         return {
@@ -118,6 +121,8 @@ class User(db.Model):
             "gamePlayed":               len(self.alabaster_games) + len(self.onyx_games),
             "friend":           self.findIfFriend(id)
         }
+
+#Schemas for Data Validation
 
 class UserSchema(ma.SQLAlchemySchema):
     class Meta:

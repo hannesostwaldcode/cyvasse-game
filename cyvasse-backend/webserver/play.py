@@ -10,6 +10,8 @@ from engine.util import boardstringToJson, JsonToBoardString
 
 play = Blueprint('play', __name__)
 
+#Create Bot Game Against Standard Position, Human plays always Alabaster
+#Todo Add different Bots or starting Positions
 @play.route("/createGame/bot",  methods=['GET', 'POST'])
 @jwt_required()
 def createBotGame():
@@ -32,6 +34,8 @@ def createBotGame():
         return {"msg": "Created AI Game"}, 200
     return  {"msg": "Creaton Failed"}, 500
 
+
+#Create Game against specific User ID / On GET find if any game Invites exist for logged in User
 @play.route("/createGame/friend",  methods=['GET', 'POST'])
 @jwt_required()
 def createFriendGame():
@@ -64,6 +68,7 @@ def createFriendGame():
             db.session.commit()
             return "OK"
         
+#Create game against random Opponent / If an open game exist new request get matched against it. 
 @play.route("/createGame", methods=['GET', 'POST'])
 @jwt_required() #new line
 def createGame():
@@ -100,6 +105,7 @@ def createGame():
             db.session.commit()
             return "OK"
 
+#Gets detailed game state for play by game id, only the users participaiting in the game are allowed to fetch this data
 @play.route("/boardData/<int:gameId>")
 @jwt_required() #new line
 def get_board(gameId):
@@ -135,6 +141,7 @@ def get_board(gameId):
     else:
         return {"msg": "Game does not exist"}, 403
 
+#Tries to apply the requested move/mutation to the game state, checks if user is correct to make turn
 @play.route("/submitMove",methods=['POST'])
 @jwt_required() #new line
 def submit_move():

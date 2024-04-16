@@ -1,4 +1,4 @@
-import default_bg from "@/assets/test_course_bg.png"
+import default_bg from "@/assets/Board.png"
 import { Course } from "@/contexts/text"
 type CourseHeaderProps = {
     imgUrl:         string

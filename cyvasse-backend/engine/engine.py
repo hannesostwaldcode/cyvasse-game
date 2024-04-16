@@ -25,6 +25,7 @@ class GameState():
         self.doubleMovePossible = self.checkDoubleMovePossible()
         self.playFor = True
 
+    #Helper for Rable double move ability
     def checkDoubleMovePossible(self):
         friendlyRabble = 'aR' if self.alabasterToMove else 'oR'
         rabbleCount = 0
@@ -37,6 +38,7 @@ class GameState():
 
         return False
         
+    #Makes a Move and cleans up the state
     def makeMove(self, move):
         if isinstance(move, Move):
             self.board[move.startRow][move.startCol] = "//"
@@ -55,7 +57,7 @@ class GameState():
         if not move.doubleMove:
             self.alabasterToMove = not self.alabasterToMove
 
-
+    #validates if a move exists acording to game state
     def validateAndMakeMove(self,  endSq, startSq = None, unit = None):
         if not startSq and not unit:
             self.alabasterToMove = not self.alabasterToMove
@@ -71,8 +73,11 @@ class GameState():
                 self.makeMove(validMoves[i])
                 return validMoves[i]
 
+    # Helper for Reserves
     def getReserves(self, alabaster):
         return self.alabaster_reserves if alabaster else self.onyx_reserves      
+   
+   #Helper for Captures
     def getCapturesSite(self, alabaster):
         captures = None
         if alabaster:
@@ -81,17 +86,12 @@ class GameState():
             captures = self.get_captures('o')
         return captures      
 
+    # Gets all valid moves / Exists if "check" or similar mechanic gets introduced
     def getValidMoves(self):
         moves = self.getAllPossibleMoves()
         return moves
-        #ToDo Enable sensible "bot" behaviour for testing
-        if not self.alabasterToMove and self.playFor:
-            move = random.choice(moves)
-            if move:
-                self.makeMove(move)
-                moves = self.getAllPossibleMoves()
-       
-    
+        
+    # gets all moves possible acording to pieces move logic
     def getAllPossibleMoves(self):
         moves = []
         for r in range(len(self.board)):
@@ -105,7 +105,7 @@ class GameState():
                     elif(piece != 'm' or piece != 'f'):
                         self.moveFunctions[piece](r,c,moves)
         return moves
-
+    # returns a Json like structure for Moves
     def getValidMovesJson(self):
         
         moves = self.getValidMoves()
@@ -116,6 +116,8 @@ class GameState():
         return jsonMoves            
         #    if(jsonMoves.index(['startSquare']""))
         #    jsonMoves.append({{"startSquare": 36, "captureSquares": [56], "moveSquares":[34,35,37,38,39,40,46]}})
+    
+    #Helper for checking if capture is possible
     def captureOpponent(self, r,c ,endPiece, endRow, endCol, moves, doubleMove = None):
         friendlyColor = 'a' if self.alabasterToMove else 'o'
         if endPiece[1] == 'E':
@@ -131,8 +133,12 @@ class GameState():
                         break
         elif not (endPiece[1] == 'f' or endPiece[1] == 'm' or endPiece[1] == 'F'):
             moves.append(Move((r,c), (endRow, endCol), self.board))
+   
+   #Helper for Non Moving Board entities
     def noMoves(self, r, c, moves):
         pass
+    
+    # Move Functions by Unit
     def getCatapultMoves(self, r, c, moves):
         directions = ((1,1),(-1,-1),(1,-1),(-1,1))
         #directions = ((0,1),(0,-1),(1,0),(-1,0))
@@ -355,7 +361,8 @@ class GameState():
                         
                     elif endPiece[0] == enemyColor:
                         self.captureOpponent(r,c ,endPiece, endRow, endCol, moves)
-                     
+
+    # Returns current one dimensional String of the Boardstate                 
     def getBoardString(self):
         string = ""
 
@@ -383,7 +390,7 @@ class GameState():
         string += rabblestring
         return string
     
-    
+    #Calcs which units have been captured
     def get_captures(self, c):
         captures = ALABASTER_START_UNITS.copy() if c == 'o' else ONYX_START_UNITS.copy()
         availabel_units = self.alabaster_reserves.copy() if c == 'o' else self.onyx_reserves.copy()
@@ -399,7 +406,7 @@ class GameState():
                 captures.remove(item)
         return captures
     
-
+    #Adds all Delploy moves and checks if the fort has been captured
     def getReserveMoves(self, r, c, moves):
         homeSquares = ((-1,0),(-1,1),(-1,2),(0,2),(1,2),(2,2),(2,1),(2,0),(2,-1),(1,-1),(0,-1),(-1,-1))
         enemyColor = 'o' if self.alabasterToMove else 'a'
@@ -425,6 +432,8 @@ class GameState():
                     for piece in reserves:
                         moves.append(Deploy(piece, (endRow, endCol), self.board))
                     # Find a solution for "moveId beaing unique" extra class and or field for these moves?
+
+# Move Helper Class to Store some state and func
 class Move():
 
     def __init__(self, startSq, endSq, board, doubleCapture = None, positionChange = None, doubleMove = None):

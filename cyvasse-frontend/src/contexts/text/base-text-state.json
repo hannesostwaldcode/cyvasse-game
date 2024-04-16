@@ -176,20 +176,26 @@
                                     "level": 1,
                                     "lessonCount": 3,
                                     "extract": "Learn about the layout of the board",
-                                    "text": "The text",
+                                    "text": "In this course youll learn more about the board and what the different elements mean",
                                     "listTitle": "What you'll learn:",
-                                    "listItems": ["Moves","How to play","Something Interesting"],
+                                    "listItems": ["How to play","Obstacles", "Board Set-up"],
                                     "lessons": [
                                         {
                                             "title": "Overview",
                                             "extract": "Learn how the different pieces moves!",
-                                            "text": "This is the text",
+                                            "text": "Most pieces can either move straight or diagonally, sometimes only one step sometimes unitl they hit an obstacle. A few units can skip over certain other units, some may even move off the edge of the board. No Unit can pass through the fort.",
                                             "videoUrl": "https://youtube.com/videoUrl"
                                         },
                                         {
                                             "title": "Obstacles on the Board",
-                                            "extract": "Learn how the different pieces moves!",
-                                            "text": "This is the text",
+                                            "extract": "Learn about the obstacles on the board!",
+                                            "text": "The main obstacles on the board are: Mountains, River(Blue Fields) and the Forts. Most units cant bypass Mointains and will stop on River Fields. No Unit can pass through the Forts.",
+                                            "videoUrl": "https://youtube.com/videoUrl"
+                                        },
+                                        {
+                                            "title": "Board Set-up",
+                                            "extract": "Learn how the creating of a new game works!",
+                                            "text": "When creating a new game you have to set up your site of the board. First youll place your Fort, which will decide where your units can start. And thee Mountains that can block enemy paths. After that you can place up to 12 Units around your fort. Any not yet placed can enter the game later via a deploy.",
                                             "videoUrl": "https://youtube.com/videoUrl"
                                         }
                                     ]
@@ -199,20 +205,20 @@
                                     "level": 1,
                                     "lessonCount": 12,
                                     "extract": "Learn how the different pieces moves!",
-                                    "text": "The text",
+                                    "text": "Information about every pieces move patters (comming soon, only a few available right now.",
                                     "listTitle": "What you'll learn:",
-                                    "listItems": ["Moves","How to play","Something Interesting"],
+                                    "listItems": ["How Pieces Move","Abilities"],
                                     "lessons": [
                                         {
                                             "title": "The King",
-                                            "extract": "Learn how the different pieces moves!",
-                                            "text": "This is the text",
+                                            "extract": "Your most valuable piece!",
+                                            "text": "The king can move one field in any direction. It doesnt have any special abilities, but loosing it reslults in loosing the game.",
                                             "videoUrl": "https://youtube.com/videoUrl"
                                         },
                                         {
                                             "title": "The Dragon",
-                                            "extract": "Learn how the different pieces moves!",
-                                            "text": "This is the text",
+                                            "extract": "The most mobile Piece!",
+                                            "text": "The Dragon can move in straight and diagonal lines for any amount of fields. It flies over mountains and rivers",
                                             "videoUrl": "https://youtube.com/videoUrl"
                                         }
                                     ]
@@ -223,45 +229,51 @@
                             "title": "First Steps (Beginner)",
                             "courses": [
                                 {
-                                    "title": "The Board",
+                                    "title": "How to win",
                                     "level": 1,
-                                    "lessonCount": 3,
-                                    "extract": "Learn about the layout of the board",
-                                    "text": "The text",
+                                    "lessonCount": 2,
+                                    "extract": "Learn how to win a game",
+                                    "text": "Find out how you can win the game by either taking the King directly or capturing the opponent fort",
                                     "listTitle": "What you'll learn:",
-                                    "listItems": ["Moves","How to play","Something Interesting"],
+                                    "listItems": ["Capturing Fort","Capturing the King","Winning!"],
                                     "lessons": [
                                         {
-                                            "title": "Overview",
+                                            "title": "Win by Fort Capture",
                                             "extract": "Learn how the different pieces moves!",
-                                            "text": "This is the text",
+                                            "text": "If two of your units enter the enemy home squares, you will capture the fort. All not yet deployed units get captured in that moment. Should the King be one of those Units, you'll win",
                                             "videoUrl": "https://youtube.com/videoUrl"
                                         },
                                         {
-                                            "title": "Obstacles on the Board",
-                                            "extract": "Learn how the different pieces moves!",
-                                            "text": "This is the text",
+                                            "title": "Win by King Capture",
+                                            "extract": "Alternativly you can also capture the King straight on the field. There is no Check State so watch out when you move your King!",
+                                            "text": "Alternativly you can also capture the King straight on the field. There is no Check State so watch out when you move your King!",
                                             "videoUrl": "https://youtube.com/videoUrl"
                                         }
                                     ]
                                 },
                                 {
-                                    "title": "How to move pieces",
+                                    "title": "Reserves",
                                     "level": 1,
-                                    "lessonCount": 12,
-                                    "extract": "Learn how the different pieces moves!",
-                                    "text": "The text",
+                                    "lessonCount": 3,
+                                    "extract": "Learn how the reserves work!",
+                                    "text": "The Unique Mechanic of this game",
                                     "listTitle": "What you'll learn:",
-                                    "listItems": ["Moves","How to play","Something Interesting"],
+                                    "listItems": ["Deploying","Destroying Forts"],
                                     "lessons": [
                                         {
-                                            "title": "The King",
+                                            "title": "Overview",
+                                            "extract": "",
+                                            "text": "This is the text",
+                                            "videoUrl": "https://youtube.com/videoUrl"
+                                        },
+                                        {
+                                            "title": "How to Deploy Units",
                                             "extract": "Learn how the different pieces moves!",
                                             "text": "This is the text",
                                             "videoUrl": "https://youtube.com/videoUrl"
                                         },
                                         {
-                                            "title": "The Dragon",
+                                            "title": "How to Keep your oppoent from deploying more units",
                                             "extract": "Learn how the different pieces moves!",
                                             "text": "This is the text",
                                             "videoUrl": "https://youtube.com/videoUrl"

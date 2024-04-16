@@ -2,7 +2,6 @@ import React, {createContext, useContext} from "react";
 import baseLangStrings from "./base-text-state.json"
 import { ChevronDown, ChevronUp, Flag } from "lucide-react";
 import german from "./lng-de-DE.json"
-import english from "./lng-en-US.json"
 
 type WithChildren = {
     children: React.ReactNode | React.ReactNode[] | JSX.Element | JSX.Element[];    
@@ -52,7 +51,7 @@ export function AggregateTextProvider({ children}: WithChildren){
        
 
         if (lang == "de-DE") {setLangStrings(german);}
-        else if (lang == "en-US") {setLangStrings(english);}
+        else if (lang == "en-US") {setLangStrings(baseLangStrings);}
         else {setLangStrings(baseLangStrings);}
        /* (async () => {
             const jsonStrings = await import(`./lng-${lang}.json`) as JsonLocalizedStrings;

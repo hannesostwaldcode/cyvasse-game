@@ -13,6 +13,7 @@ def create_app():
     #cors = CORS(app)
     app.config.from_object("webserver.config.Config")
 
+    #mount library components
     db.init_app(app)
     ma.init_app(app)
     jwt.init_app(app)
