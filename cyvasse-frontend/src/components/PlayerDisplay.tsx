@@ -2,6 +2,7 @@ import { unitKeys } from "./Unit"
 import { CountryCode } from "../data/board"
 import { getCountryFlagEmoji } from "@/lib/utils"
 import { useEffect, useState } from "react"
+import userimage from "@/assets/user-image.svg"
 
 type PlayerDisplayProps = {
     playerName: string
@@ -49,7 +50,7 @@ export function PlayerDisplay({
 
     return (
         <div className="w-[600px] h-6 flex md:h-auto">
-            <div className="w-6 h-6 md:w-10 md:h-10 overflow-hidden flex-shrink-0 bg-blue-500 rounded-md"><img width={64} height={64} src="/src/assets/user-image.svg"></img></div>
+            <div className="w-6 h-6 md:w-10 md:h-10 overflow-hidden flex-shrink-0 bg-blue-500 rounded-md"><img width={64} height={64} src={userimage}></img></div>
             <div className="flex ml-4 flex-row lg:flex-col">
                 <div className="flex flex-row">{playerName} ({rating}) {country ? getCountryFlagEmoji(country) : "🏳"}</div>
                 <div className="flex flex-row">
